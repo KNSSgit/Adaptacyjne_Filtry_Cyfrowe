@@ -18,7 +18,7 @@
   out=round(x);
   figure(2)
   plot(t,out)
-  file=fopen('G:\Users\Adrian\Documents\GitHub\filtry\sinus.txt','w');
+  file=fopen('sinus.txt','w');
   fprintf(file, '%X \n',out);
   
   fclose(file);

@@ -16,47 +16,52 @@ module filtr
     );
     
 wire [k-1:0] audio_in_2, audio_in_3;
-
+wire filter_done1,filter_done2,filter_done3;
 sos stage1(
     .audio_in(audio_in),
     .reset(reset),
     .clk(clk),
     .b0(16'd16384),
-    .b1(16'd32767),
+    .b1(16'd38201),
     .b2(16'd16384),
-    .a1(16'd6054),
-    .a2(16'd3208),
+    .a1(16'd35207),
+    .a2(16'd14121),
     .audio_out(audio_out),
     .sample_trig(sample_trig),
-    .gain(16'd6412)
+    .filter_done(filter_done1),
+    .gain(16'd524)
     );
   
 /* sos stage2(
         .audio_in(audio_in_2),
         .reset(reset),
-        .lr_clk(lr_clk),
+        .clk(clk),
         .b0(16'd16384),
-        .b1(16'd49513),
+        .b1(16'd38201),
         .b2(16'd16384),
-        .a1(16'd50888),
-        .a2(16'd10143),
+        .a1(16'd36412),
+        .a2(16'd13130),
+        .sample_trig(filter_done1),
+        .filter_done(filter_done2),
         .audio_out(audio_in_3),
-        .gain(16'd10389)
+        .gain(16'd851)
         );
       
    
  sos stage3(
                .audio_in(audio_in_3),
                .reset(reset),
-               .lr_clk(lr_clk),
+               .clk(clk),
                    .b0(16'd16384),
-                   .b1(16'd42948),
+                   .b1(16'd35797),
                    .b2(16'd16384),
-                   .a1(16'd43364),
-                   .a2(16'd14675),
+                   .a1(16'd34358),
+                   .a2(16'd15186),
+                   .sample_trig(filter_done2),
+                   .filter_done(filter_done3),
                    .audio_out(audio_out),
-                   .gain(16'd10389)
+                   .gain(16'd851)
                    );
                
-           */ 
+  */          
 endmodule

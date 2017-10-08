@@ -2,7 +2,7 @@
 // Date:	Wrzesien 2017
 // File:    sos.v
 // HW:	    Adaptacyjne Filtry 
-// Pupr:	top scalajacy filtr (docelowo ma zawierać 3 instancje sos naraqzie do testow jedna)
+// Pupr:	top scalajacy filtr (docelowo ma zawieraal 3 instancje sos naraqzie do testow jedna)
 ////////////////////////////////////////////////////////////////////////////////
 `timescale 1ns / 1ps
 

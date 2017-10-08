@@ -31,7 +31,6 @@ simulation/
 *.dcp
 *.jou
 *.vds
-*.xdc
 
 *.cache/
 *.hw/

@@ -5,13 +5,7 @@
 %// Project: Adaptacyjne filtry cyfrowe do kondycjonowania sygna³ów biomedycznych 
 %//////////////////////////////////////////////////////////////////////////////////
 
-clear all;
-close all;
-
-format long
-
-number = -1.9075016;    %liczba któr¹ chcemy przekszta³ciæ
-bits = 32;              %liczba bitów
+function binary_result = dec2fixpoint(number, bits)
 
 if number < 0
     integer = -ceil(abs(number));
@@ -38,4 +32,6 @@ switch integer
         binary_integer = '00';
 end
 
-binary_result = [binary_integer binary_fraction]
+binary_result = [binary_integer binary_fraction];
+
+end

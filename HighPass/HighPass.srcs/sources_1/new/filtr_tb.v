@@ -15,7 +15,7 @@ filtr f(
 );
 reg [23:0] data[0:599];
 
-initial $readmemh("G:/Users/Adrian/Documents/GitHub/filtry/sinus.txt",data);
+initial $readmemh("G:/Users/Adrian/Documents/GitHub/Adaptacyjne_Filtry_Cyfrowe/HighPass/matlab/sinus.txt",data);
 
 integer i;
 always

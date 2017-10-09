@@ -1,6 +1,8 @@
 function [  ] = hdl_creator( SOS, rzad,ile_bit,g )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+% jako argument podajesz SOS w postaci dziesi?tej ale z shiftem
+% rz?d filtru
+%ile bitów maj? wspó?czynniki i liczb? g w takiej postaci jak wspó?czynniki
+%
 rzad_pom=rzad;
 file=fopen('top_filter.v','w');
 fprintf(file,'''timescale 1ns/1ps\n\n');

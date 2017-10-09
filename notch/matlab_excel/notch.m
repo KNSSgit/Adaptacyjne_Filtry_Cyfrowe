@@ -1,8 +1,8 @@
 %//////////////////////////////////////////////////////////////////////////////////
-%// Ko³o Naukowe Systemów Scalonych
+%// Kolo Naukowe Systemow Scalonych
 %// 10.2017
 %// 
-%// Project: Adaptacyjne filtry cyfrowe do kondycjonowania sygna³ów biomedycznych 
+%// Projekt: Adaptacyjne filtry cyfrowe do kondycjonowania sygnalow biomedycznych 
 %//////////////////////////////////////////////////////////////////////////////////
 
 clear all;
@@ -10,28 +10,30 @@ close all;
 
 format long
 
-n = 4;      %rz¹d filtru
-fs = 2000;    %czêstotliwoœæ próbkowania
-f = 50;       %czêstotliwoœæ wyciêcia
-f1 = f-3;     %czêstotliwoœæ mniejsza od f dla której ampiltuda spada o 3dB
-f2 = f+3;     %czêstotliwoœæ wiêksza od f dla której ampiltuda spada o 3dB
+n = 4;      %rzad filtru
+fs = 6000;    %czestotliwosc probkowania
+f = 50;       %czestotliwosc wyciecia
+f1 = f-3;     %czestotliwosc mniejsza od f dla ktorej ampiltuda spada o 3dB
+f2 = f+3;     %czestotliwosc wieksza od f dla ktorej ampiltuda spada o 3dB
 
-Wn = [2*f1/fs 2*f2/fs];     %unormowana "szerokoœæ" pasma pracy (matlab sam dodaje pi)
+Wn = [2*f1/fs 2*f2/fs];     %unormowana "szerokosc" pasma pracy (matlab sam dodaje pi)
 ftype = 'stop';             %typ filtru pasmowo zaporowy
 
 [b,a] = butter(n/2,Wn,ftype);   %n/2 bo parametr 2n, b - licznik, a - mianownik transmitancji
 
-[SOS, G] = tf2sos(b,a);     %wytworzenie wspó³czynników do biquada
+[SOS, G] = tf2sos(b,a);     %wytworzenie wspolczynnikow do biquada
 
-N=2048;         %iloœæ próbek do wykresu
-ts=1/fs;        %okres próbkowania
+G_prim = G^(1/2);
+
+N=2048;         %ilosc probek do wykresu
+ts=1/fs;        %okres probkowania
 
 t = ts*(0:N-1);     %wektor czasu 
 
 figure;
 freqz(b,a, 2^16)
 
-dataIn = sin(2*pi*f*t);          %sinus o czêstotliwoœci odfiltrowywanej
+dataIn = sin(2*pi*f*t);          %sinus o czestotliwosci odfiltrowywanej
 dataOut = filter(b,a,dataIn);    %po filtracji 
 
 dataOut2 = filter(SOS(1, 1:3), SOS(1, 4:6), dataIn);
@@ -41,15 +43,16 @@ figure;
 plot(t, dataIn, '-r' ,t, dataOut, '-b', t, dataOut3, '-g' )
 
 
-disp(['Wspó³czynnik b0 filtru pierwszego: ', dec2fixpoint(SOS(1,1), 32)]);
-disp(['Wspó³czynnik b1 filtru pierwszego: ', dec2fixpoint(SOS(1,2), 32)]);
-disp(['Wspó³czynnik b2 filtru pierwszego: ', dec2fixpoint(SOS(1,3), 32)]);
-disp(['Wspó³czynnik a0 filtru pierwszego: ', dec2fixpoint(SOS(1,4), 32)]);
-disp(['Wspó³czynnik a1 filtru pierwszego: ', dec2fixpoint(SOS(1,5), 32)]);
-disp(['Wspó³czynnik a2 filtru pierwszego: ', dec2fixpoint(SOS(1,6), 32)]);
-disp(['Wspó³czynnik b0 filtru drugiego:   ', dec2fixpoint(SOS(2,1), 32)]);
-disp(['Wspó³czynnik b1 filtru drugiego:   ', dec2fixpoint(SOS(2,2), 32)]);
-disp(['Wspó³czynnik b2 filtru drugiego:   ', dec2fixpoint(SOS(2,3), 32)]);
-disp(['Wspó³czynnik a0 filtru drugiego:   ', dec2fixpoint(SOS(2,4), 32)]);
-disp(['Wspó³czynnik a1 filtru drugiego:   ', dec2fixpoint(SOS(2,5), 32)]);
-disp(['Wspó³czynnik a2 filtru drugiego:   ', dec2fixpoint(SOS(2,6), 32)]);
+disp(['Wspolczynnik b0 filtru pierwszego: ', dec2fixpoint(SOS(1,1), 32)]);
+disp(['Wspolczynnik b1 filtru pierwszego: ', dec2fixpoint(SOS(1,2), 32)]);
+disp(['Wspolczynnik b2 filtru pierwszego: ', dec2fixpoint(SOS(1,3), 32)]);
+disp(['Wspolczynnik a0 filtru pierwszego: ', dec2fixpoint(SOS(1,4), 32)]);
+disp(['Wspolczynnik a1 filtru pierwszego: ', dec2fixpoint(SOS(1,5), 32)]);
+disp(['Wspolczynnik a2 filtru pierwszego: ', dec2fixpoint(SOS(1,6), 32)]);
+disp(['Wspolczynnik b0 filtru drugiego:   ', dec2fixpoint(SOS(2,1), 32)]);
+disp(['Wspolczynnik b1 filtru drugiego:   ', dec2fixpoint(SOS(2,2), 32)]);
+disp(['Wspolczynnik b2 filtru drugiego:   ', dec2fixpoint(SOS(2,3), 32)]);
+disp(['Wspolczynnik a0 filtru drugiego:   ', dec2fixpoint(SOS(2,4), 32)]);
+disp(['Wspolczynnik a1 filtru drugiego:   ', dec2fixpoint(SOS(2,5), 32)]);
+disp(['Wspolczynnik a2 filtru drugiego:   ', dec2fixpoint(SOS(2,6), 32)]);
+disp(['Wspolczynnik pierwiastek z G:      ', dec2fixpoint(G_prim, 32)]);

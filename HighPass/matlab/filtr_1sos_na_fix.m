@@ -17,28 +17,35 @@ end
 bp(1,1:3)=sos2(1,1:3);
 ap(1,1:3)=sos2(1,4:6);
 
+for i=1:1
+    for j=1:3
+        [o,h(i,j),fix_b(i,j)]=fixpoint(bp(i,j),liczba_bit);
+    end
+end
+
+for i=1:1
+    for j=1:3
+        [ol,hl(i,j),fix_a(i,j)]=fixpoint(ap(i,j),liczba_bit);
+    end
+end
 probka=1000;
 R1=0;
 R2=0;
 R3=0;
-k=1:200;
-
-sos2
-sos3
+k=200;
 
 [l,k,m]=fixpoint(g,liczba_bit);
 
-hdl_creator(sos3,1,liczba_bit,m)
-m
 
-for i=k
+for i=1:k
        
-    b0_g=bp(1,1)*probka;
-    b1_g=bp(1,2)*probka;
-    b2_g=bp(1,3)*probka;
-    %R3p(i)=R3;
+    b0_g=fix_b(1,1)*probka;
+    b1_g=fix_b(1,2)*probka;
+    b2_g=fix_b(1,3)*probka;
     
-    R3=floor(b0_g+R1);
+    
+    R3=(floor(b0_g+R1))/2^(liczba_bit);
+    R3p(i)=R3;
     a1_g=R3*ap(1,2);
     a2_g=R3*ap(1,3);
     Rg=R3*g^(1/3);
@@ -46,5 +53,5 @@ for i=k
     R2=b2_g-a2_g;
 end
 
-%figure(2)
-%plot(k,R3p)
+figure(2)
+plot(1:k,R3p)

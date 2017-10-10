@@ -5,14 +5,14 @@ function [  ] = hdl_creator( SOS, rzad,ile_bit,g )
 %
 rzad_pom=rzad;
 file=fopen('top_filter.v','w');
-fprintf(file,'''timescale 1ns/1ps\n\n');
+fprintf(file,'`timescale 1ns/1ps\n\n');
 fprintf(file,'module top_filter\n ');
-fprintf(file,'\t #(parameter n=32,k=24)(\n');
+fprintf(file,'\t #(parameter n=%d,k=24)(\n',ile_bit);
 fprintf(file,'\t input [k-1:0] audio_in,\n');
 fprintf(file,'\t input reset,\n');
 fprintf(file,'\t input clk,\n');
 fprintf(file,'\t input sample_trig,\n');
-fprintf(file,'\t input [k-1:0] audio_out,\n \t );\n\n');
+fprintf(file,'\t output [k-1:0] audio_out\n \t );\n\n');
 
 fprintf(file,'wire [k-1:0] audio_in_2');
 if rzad>2

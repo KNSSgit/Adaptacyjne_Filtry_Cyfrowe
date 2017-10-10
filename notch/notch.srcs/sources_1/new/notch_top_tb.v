@@ -65,4 +65,3 @@ module notch_top_tb
         end
          
 endmodule
-

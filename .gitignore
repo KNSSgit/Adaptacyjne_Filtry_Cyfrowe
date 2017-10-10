@@ -19,7 +19,6 @@ simulation/
 *.xpr
 *.wdf
 *.xml
-*.txt
 *.rst
 *.pb
 *.js

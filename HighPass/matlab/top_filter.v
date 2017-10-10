@@ -17,14 +17,14 @@ sos stage1 (
 	 .reset(reset),
 	 .clk(clk),
 	 .b0(20'd262144),
-	 .b1(20'd559421),
+	 .b1(20'd530720),
 	 .b2(20'd262144),
-	 .a1(20'd548457),
-	 .a2(20'd239075),
+	 .a1(20'd535557),
+	 .a2(20'd257249),
 	 .audio_out(audio_out),
 	 .sample_trig(sample_trig),
 	 .filter_done(filter_done_1),
-	 .gain(20'd8191)
+	 .gain(20'd260917)
  	);
 
 endmodule

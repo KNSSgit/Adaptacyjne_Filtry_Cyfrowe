@@ -55,7 +55,7 @@ k=200;
    t = (0:dt:StopTime-dt)';     % seconds
    %% Sine wave:
    Fc = 50;                     % hertz
-   probka = 770.*sin(2*pi*Fc*t)+780;
+   probka = 7700000.*sin(2*pi*Fc*t)+7800000;
    
 for i=1:k
        

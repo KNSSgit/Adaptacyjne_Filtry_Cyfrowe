@@ -19,7 +19,6 @@ simulation/
 *.xpr
 *.wdf
 *.xml
-*.txt
 *.rst
 *.pb
 *.js
@@ -37,3 +36,4 @@ simulation/
 *.ip_user_files/
 *.runs/
 *.sim/
+

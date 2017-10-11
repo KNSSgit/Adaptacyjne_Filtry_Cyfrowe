@@ -2,7 +2,7 @@ clear all
 close all
 fs=48000;
 fc=2000;
-liczba_bit=20;
+liczba_bit=32;
 [b,a]=cheby2(2,30,2*fc/fs);
 [sosl,g] = tf2sos(b,a);
 %figure(1)

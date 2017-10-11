@@ -2,7 +2,7 @@ clear all
 close all
 fs=48000;
 fc=1000;
-
+liczba_bit=16
 [b,a] = butter(4,fc/(fs/2));
 figure(1)
 freqz(b,a);
@@ -26,6 +26,7 @@ sos3
 sos2
 [l,k,m]=fixpoint(g_prim,16);
 m
+hdl_creator(sos3,2,liczba_bit,m)
 %{
 for i=1:3
 b=sos(i,1:3);

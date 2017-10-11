@@ -18,11 +18,11 @@ module notch_top_tb
     reg [DATA_SIZE-1:0] data_in;
     wire [DATA_SIZE-1:0] data_out;
     
-    reg clk, clk_6khz;
+    reg clk, clk_2khz;
     reg reset;
     reg sample;
     
-    reg [DATA_SIZE-1:0] data[0:599];
+    reg [DATA_SIZE-1:0] data[0:199];
     
     initial $readmemh("C:/Users/scieslak/Documents/VHDL_Verilog/Adaptacyjne_Filtry_Cyfrowe/notch/matlab_excel/sinus.txt", data);
     
@@ -38,7 +38,7 @@ module notch_top_tb
     
     always
         begin
-            #166 clk_6khz = !clk_6khz;
+            #500 clk_2khz = !clk_2khz;
         end
     
     always
@@ -48,18 +48,18 @@ module notch_top_tb
         
     initial
         begin
-            clk_6khz = 1;
+            clk_2khz = 1;
             clk = 1;
             i = 0;
             reset = 1;
-            #166 reset = 0;
+            #500 reset = 0;
         end
         
-    always @(posedge clk_6khz)
+    always @(posedge clk_2khz)
         begin
             data_in = data[i];
             i = i + 1;
-            if(i > 599) i = 0;
+            if(i > 199) i = 0;
             sample = 1;
             #50 sample = 0;
         end

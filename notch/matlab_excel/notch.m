@@ -11,7 +11,7 @@ close all;
 format long
 
 n = 4;      %rzad filtru
-fs = 6000;    %czestotliwosc probkowania
+fs = 2000;    %czestotliwosc probkowania
 f = 50;       %czestotliwosc wyciecia
 f1 = f-3;     %czestotliwosc mniejsza od f dla ktorej ampiltuda spada o 3dB
 f2 = f+3;     %czestotliwosc wieksza od f dla ktorej ampiltuda spada o 3dB

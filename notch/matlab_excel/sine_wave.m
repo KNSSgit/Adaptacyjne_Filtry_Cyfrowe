@@ -1,7 +1,7 @@
    clear all
    close all
 %% Time specifications:
-   Fs = 6000;                   % samples per second
+   Fs = 2000;                   % samples per second
    dt = 1/Fs;                   % seconds per sample
    StopTime = 0.1;             % seconds
    t = (0:dt:StopTime-dt)';     % seconds

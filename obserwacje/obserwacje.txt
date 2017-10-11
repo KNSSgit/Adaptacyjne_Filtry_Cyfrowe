@@ -1,1 +1,2 @@
 na 32 bitach pojawia siê dziwny pik, a na 20 powinno byæ ok
+na 32 bit wspó³czynnikach ale przy mniejszym sygnale pik znika

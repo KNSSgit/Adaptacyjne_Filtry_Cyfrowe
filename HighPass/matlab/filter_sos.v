@@ -11,14 +11,14 @@
 
 
 module filter_sos 
-    #(parameter COEF_SIZE = 32, 
+    #(parameter COEF_SIZE = 20, 
       parameter DATA_SIZE = 24,
-      parameter integer B0 = 32'b00000000000000000000000000000000,
-      parameter integer B1 = 32'b00000000000000000000000000000000,
-      parameter integer B2 = 32'b00000000000000000000000000000000,
-      parameter integer A1 = 32'b00000000000000000000000000000000,
-      parameter integer A2 = 32'b00000000000000000000000000000000,
-      parameter integer GAIN = 32'b00000000000000000000000000000000)
+      parameter signed B0 = 20'b0,
+      parameter signed B1 = 20'b0,
+      parameter signed B2 = 20'b0,
+      parameter signed A1 = 20'b0,
+      parameter signed A2 = 20'b0,
+      parameter signed GAIN = 20'b0)
     ( input [DATA_SIZE-1:0] data_in,
       output [DATA_SIZE-1:0] data_out,
       

@@ -9,7 +9,7 @@ clear all;
 close all;
 
 format long
-liczba_bit=20;
+liczba_bit=32;
 n = 4;      %rz¹d filtru
 fs = 2000;    %czêstotliwoœæ próbkowania
 f = 50;       %czêstotliwoœæ wyciêcia

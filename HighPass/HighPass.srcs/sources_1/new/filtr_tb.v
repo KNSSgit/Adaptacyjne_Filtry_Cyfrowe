@@ -1,26 +1,36 @@
 `timescale 1ns / 1ps
 
 module filtr_tb
-#(parameter n=16,k=24)();
-reg [23:0] audio_in;
-wire [23:0] audio_out;
-reg clk_6khz,reset,clk;
+#(parameter COEF_SIZE = 32, 
+  parameter DATA_SIZE = 24)
+();
+
+
+reg [DATA_SIZE-1:0] data_in;
+wire [DATA_SIZE-1:0] data_out;
+
+reg clk, clk_2khz;
+reg reset;
 reg sample;
-filtr f(
-.audio_in(audio_in),
-.reset(reset),
-.clk(clk),
-.sample_trig(sample),
-.audio_out(audio_out)
-);
-reg [23:0] data[0:599];
+
+reg [DATA_SIZE-1:0] data[0:199];
+
+ top_filter f
+       (.data_in(data_in),
+        .data_out(data_out),
+        .sample_trig(sample),
+        .clk(clk),
+        .reset(reset)
+       );
+
+
 
 initial $readmemh("G:/Users/Adrian/Documents/GitHub/Adaptacyjne_Filtry_Cyfrowe/HighPass/matlab/sinus.txt",data);
 
 integer i;
 always
 begin
-#166clk_6khz=!clk_6khz;
+#500clk_2khz=!clk_2khz;
 
 end
 
@@ -32,17 +42,17 @@ end
 
 initial
 begin
-clk_6khz=1;
+clk_2khz=1;
 clk=1;
 i=0;
 reset=1;
-#166 reset=0;
+#500 reset=0;
 end
-always@(posedge clk_6khz) begin
+always@(posedge clk_2khz) begin
          //$display("%d:%h",i,data[i]);
-         audio_in=data[i];
+         data_in=data[i];
          i=i+1;
-         if (i>599) i=0;
+         if (i>199) i=0;
         sample=1;
         #50
         sample=0;

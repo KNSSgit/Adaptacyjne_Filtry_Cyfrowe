@@ -43,16 +43,16 @@ figure;
 plot(t, dataIn, '-r' ,t, dataOut, '-b', t, dataOut3, '-g' )
 
 
-disp(['Wspolczynnik b0 filtru pierwszego: ', dec2fixpoint(SOS(1,1), 32)]);
-disp(['Wspolczynnik b1 filtru pierwszego: ', dec2fixpoint(SOS(1,2), 32)]);
-disp(['Wspolczynnik b2 filtru pierwszego: ', dec2fixpoint(SOS(1,3), 32)]);
-disp(['Wspolczynnik a0 filtru pierwszego: ', dec2fixpoint(SOS(1,4), 32)]);
-disp(['Wspolczynnik a1 filtru pierwszego: ', dec2fixpoint(SOS(1,5), 32)]);
-disp(['Wspolczynnik a2 filtru pierwszego: ', dec2fixpoint(SOS(1,6), 32)]);
-disp(['Wspolczynnik b0 filtru drugiego:   ', dec2fixpoint(SOS(2,1), 32)]);
-disp(['Wspolczynnik b1 filtru drugiego:   ', dec2fixpoint(SOS(2,2), 32)]);
-disp(['Wspolczynnik b2 filtru drugiego:   ', dec2fixpoint(SOS(2,3), 32)]);
-disp(['Wspolczynnik a0 filtru drugiego:   ', dec2fixpoint(SOS(2,4), 32)]);
-disp(['Wspolczynnik a1 filtru drugiego:   ', dec2fixpoint(SOS(2,5), 32)]);
-disp(['Wspolczynnik a2 filtru drugiego:   ', dec2fixpoint(SOS(2,6), 32)]);
-disp(['Wspolczynnik pierwiastek z G:      ', dec2fixpoint(G_prim, 32)]);
+disp(['Wspolczynnik b0 filtru pierwszego: ', dec2fixpoint(SOS(1,1), 20)]);
+disp(['Wspolczynnik b1 filtru pierwszego: ', dec2fixpoint(SOS(1,2), 20)]);
+disp(['Wspolczynnik b2 filtru pierwszego: ', dec2fixpoint(SOS(1,3), 20)]);
+disp(['Wspolczynnik a0 filtru pierwszego: ', dec2fixpoint(SOS(1,4), 20)]);
+disp(['Wspolczynnik a1 filtru pierwszego: ', dec2fixpoint(SOS(1,5), 20)]);
+disp(['Wspolczynnik a2 filtru pierwszego: ', dec2fixpoint(SOS(1,6), 20)]);
+disp(['Wspolczynnik b0 filtru drugiego:   ', dec2fixpoint(SOS(2,1), 20)]);
+disp(['Wspolczynnik b1 filtru drugiego:   ', dec2fixpoint(SOS(2,2), 20)]);
+disp(['Wspolczynnik b2 filtru drugiego:   ', dec2fixpoint(SOS(2,3), 20)]);
+disp(['Wspolczynnik a0 filtru drugiego:   ', dec2fixpoint(SOS(2,4), 20)]);
+disp(['Wspolczynnik a1 filtru drugiego:   ', dec2fixpoint(SOS(2,5), 20)]);
+disp(['Wspolczynnik a2 filtru drugiego:   ', dec2fixpoint(SOS(2,6), 20)]);
+disp(['Wspolczynnik pierwiastek z G:      ', dec2fixpoint(G_prim, 20)]);

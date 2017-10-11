@@ -10,7 +10,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module notch_top_tb
-    #(parameter COEF_SIZE = 32, 
+    #(parameter COEF_SIZE = 20, 
       parameter DATA_SIZE = 24)
     ();
     

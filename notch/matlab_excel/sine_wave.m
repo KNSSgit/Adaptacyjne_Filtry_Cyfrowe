@@ -7,7 +7,7 @@
    t = (0:dt:StopTime-dt)';     % seconds
    %% Sine wave:
    Fc = 50;                     % hertz
-   x = 7700000.*sin(2*pi*Fc*t)+7800000;
+   x = 77000.*sin(2*pi*Fc*t)+78000;
    % Plot the signal versus time:
    %figure(1);
    %plot(t,x);

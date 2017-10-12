@@ -19,8 +19,8 @@ module filter_sos
       parameter signed A1 = 20'b0,
       parameter signed A2 = 20'b0,
       parameter signed GAIN = 20'b0)
-    ( input [DATA_SIZE-1:0] data_in,
-      output [DATA_SIZE-1:0] data_out,
+    ( input signed [DATA_SIZE-1:0] data_in,
+      output signed [DATA_SIZE-1:0] data_out,
       
       input sample_trig,
       output reg filter_done,
@@ -29,14 +29,14 @@ module filter_sos
       input reset
     );
 
-    reg signed [COEF_SIZE+DATA_SIZE-1+4:0] r1_reg, r2_reg, r3_reg;
+    reg signed [COEF_SIZE+DATA_SIZE-1+4-1:0] r1_reg, r2_reg, r3_reg;
     reg signed [DATA_SIZE-1:0] r4_reg;
     
     wire signed [DATA_SIZE:0] data_in_ext;
     
-    wire signed [COEF_SIZE+DATA_SIZE-1+4:0] r1, r2, r3;
-    wire signed [COEF_SIZE+DATA_SIZE-1+4:0] b0_mult, b1_mult, b2_mult, a1_mult, a2_mult;
-    wire signed [COEF_SIZE+DATA_SIZE-1+4+COEF_SIZE:0] r4;
+    wire signed [COEF_SIZE+DATA_SIZE-1+4-1:0] r1, r2, r3;
+    wire signed [COEF_SIZE+DATA_SIZE-1+4-1:0] b0_mult, b1_mult, b2_mult, a1_mult, a2_mult;
+    wire signed [COEF_SIZE+DATA_SIZE-1+4+COEF_SIZE-1:0] r4;
     
     reg st1, st2, st3;
     reg [1:0] state_reg, state_next;
@@ -63,7 +63,7 @@ module filter_sos
             else if(st2)
                 begin
                     r1_reg <= r1;
-                    r4_reg <= r4>>(2*COEF_SIZE-4);
+                    r4_reg <= r4>>>(2*COEF_SIZE-4);
                 end
                 
             else if(st3)
@@ -116,14 +116,14 @@ module filter_sos
         end
 
     
-    assign data_in_ext = {1'b0, data_in};
+    assign data_in_ext = data_in;//konkatenacja z bitem
     
     assign b0_mult = B0 * data_in_ext;
     assign b1_mult = B1 * data_in_ext;
     assign b2_mult = B2 * data_in_ext;
     
-    assign a1_mult = A1 * (r3_reg>>(COEF_SIZE-2));
-    assign a2_mult = A2 * (r3_reg>>(COEF_SIZE-2));
+    assign a1_mult = A1 * (r3_reg>>>(COEF_SIZE-2));
+    assign a2_mult = A2 * (r3_reg>>>(COEF_SIZE-2));
     
     
     assign r3 = b0_mult + r1_reg;

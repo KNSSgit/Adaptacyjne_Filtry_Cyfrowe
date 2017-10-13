@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 module top_filter
- 	#(parameter COEF_SIZE=10,
+ 	#(parameter COEF_SIZE=20,
 	  parameter DATA_SIZE=24)
 	(input [DATA_SIZE-1:0] data_in,
 	  input reset,
@@ -16,18 +16,35 @@ wire filter_done_first;
 filter_sos
 	 #(.COEF_SIZE(COEF_SIZE),
  	   .DATA_SIZE(DATA_SIZE),
- 	  .B0(10'd256),
-	  .B1(10'd546),
-	  .B2(10'd256),
-	  .A1(10'd536),
-	  .A2(10'd233),
-	  .GAIN(10'd8))
+ 	  .B0(20'd16384),
+	  .B1(20'd39704),
+	  .B2(20'd16384),
+	  .A1(20'd36904),
+	  .A2(20'd12560),
+	  .GAIN(20'd1601))
 	sos_stage_1 (
  	 .data_in(data_in),
 	 .reset(reset),
 	 .clk(clk),
-	 .data_out(data_out),
+	 .data_out(data_connection_1),
 	 .sample_trig(sample_trig),
 	 .filter_done(filter_done_first)
+	);
+filter_sos
+	 #(.COEF_SIZE(COEF_SIZE),
+ 	   .DATA_SIZE(DATA_SIZE),
+ 	  .B0(20'd16384),
+	  .B1(20'd34072),
+	  .B2(20'd16384),
+	  .A1(20'd34452),
+	  .A2(20'd14977),
+	  .GAIN(20'd1601))
+	sos_stage_2 (
+ 	 .data_in(data_connection_1),
+	 .reset(reset),
+	 .clk(clk),
+	 .data_out(data_out),
+	 .sample_trig(filter_done_first),
+	 .filter_done(filter_done_second)
 	);
 endmodule

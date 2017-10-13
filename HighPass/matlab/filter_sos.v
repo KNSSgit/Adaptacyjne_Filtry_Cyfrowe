@@ -63,7 +63,7 @@ module filter_sos
             else if(st2)
                 begin
                     r1_reg <= r1;
-                    r4_reg <= r4>>(2*COEF_SIZE-4);
+                    r4_reg <= r4>>>(2*COEF_SIZE-4);
                 end
                 
             else if(st3)
@@ -116,14 +116,14 @@ module filter_sos
         end
 
     
-    assign data_in_ext = {1'b0, data_in};
+    assign data_in_ext = {data_in[DATA_SIZE-1], data_in};
     
     assign b0_mult = B0 * data_in_ext;
     assign b1_mult = B1 * data_in_ext;
     assign b2_mult = B2 * data_in_ext;
     
-    assign a1_mult = A1 * (r3_reg>>(COEF_SIZE-2));
-    assign a2_mult = A2 * (r3_reg>>(COEF_SIZE-2));
+    assign a1_mult = A1 * (r3_reg>>>(COEF_SIZE-2));
+    assign a2_mult = A2 * (r3_reg>>>(COEF_SIZE-2));
     
     
     assign r3 = b0_mult + r1_reg;

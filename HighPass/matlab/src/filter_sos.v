@@ -111,6 +111,7 @@ module filter_sos
                     begin
                         st3 = 1'b1;
                         state_next = IDLE;
+                        filter_done = 1'b1;
                     end
             endcase
         end

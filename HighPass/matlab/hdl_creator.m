@@ -4,7 +4,7 @@ function [  ] = hdl_creator( SOS, rzad,ile_bit,g )
 %ile bitów maj? wspó?czynniki i liczb? g w takiej postaci jak wspó?czynniki
 %
 rzad_pom=rzad;
-file=fopen('top_filter.v','w');
+file=fopen('src/top_filter.v','w');
 fprintf(file,'`timescale 1ns/1ps\n\n');
 fprintf(file,'module top_filter\n ');
 fprintf(file,'\t#(parameter COEF_SIZE=%d,\n\t  parameter DATA_SIZE=24)\n',ile_bit);

@@ -4,7 +4,7 @@ fs=48000;
 fc=2000;
 liczba_bit=20
 %[b,a] = butter(4,fc/(fs/2));
-[b,a]=cheby2(4,40,2*fc/fs);
+[b,a]=cheby2(4,20,2*fc/fs);
 figure(1)
 freqz(b,a);
 [sos,g]=tf2sos(b,a);

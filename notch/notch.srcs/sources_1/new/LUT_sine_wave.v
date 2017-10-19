@@ -19,7 +19,7 @@ module LUT_sine_wave(
     reg [23:0] rom [0:199];
     reg [7:0] i;
 
-    initial 
+    always @(reset)
         begin
             rom[0] = 24'h7704C0;
             rom[1] = 24'h896601;

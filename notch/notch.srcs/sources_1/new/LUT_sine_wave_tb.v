@@ -30,6 +30,6 @@ module LUT_sine_wave_tb();
             #100 reset = 0;
         end
         
-    always #10 clk = !clk;
+    always #5 clk = !clk;
     
 endmodule

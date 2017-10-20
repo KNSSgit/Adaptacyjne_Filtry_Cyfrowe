@@ -3,7 +3,7 @@
 %% Time specifications:
    Fs = 2000;                   % samples per second
    dt = 1/Fs;                   % seconds per sample
-   StopTime = 0.1;             % seconds
+   StopTime = 0.02;             % seconds
    t = (0:dt:StopTime-dt)';     % seconds
    %% Sine wave:
    Fc = 50;                     % hertz

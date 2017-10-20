@@ -1,9 +1,9 @@
    clear all
    close all
 %% Time specifications:
-   Fs = 2000;                   % samples per second
+   Fs = 20000;                   % samples per second
    dt = 1/Fs;                   % seconds per sample
-   StopTime = 0.1;             % seconds
+   StopTime = 0.02;             % seconds
    t = (0:dt:StopTime-dt)';     % seconds
    %% Sine wave:
    Fc = 50;                     % hertz
@@ -20,7 +20,7 @@
   plot(t,out)
   file=fopen('sinus_rom.txt','w');
   
-  for i = 0:199
+  for i = 0:399
     fprintf(file, 'rom[%u] = 24''h%X;\n',i,out(i+1));
   end
   

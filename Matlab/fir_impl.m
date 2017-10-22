@@ -4,13 +4,13 @@ close all;
 %% Time specifications:
    Fs = 2000;                   % samples per second
    dt = 1/Fs;                   % seconds per sample
-   StopTime = 0.5;             % seconds
+   StopTime = 2;             % seconds
    t = (0:dt:StopTime-dt)';     % seconds
    %% Sine wav1e:
-   Fc = 100;         
-   Fn=10 ;                          % Czêstotliwoœæ szumu
+   Fc = 10;         
+   Fn=50 ;                          % Czêstotliwoœæ szumu
    x = 100.*sin(2*pi*Fc*t);         % sygna³ bez szumu
-   noise=50.*cos(2*pi*Fn*t);        % szum
+   noise=200.*cos(2*pi*Fn*t);        % szum
 
    noise_n=10.*cos(2*pi*Fn*t+pi()/5);  % szum o mniejszej amplitudzie i trochê innej fazie
    d=noise_n;
@@ -29,7 +29,7 @@ for k=Tap_number:-1:2
 fifo(k) = fifo(k-1);
 end;
 fifo(1) = d(i);
-%filtracja sygna³u z szumem
+%filtracja szumu
 y=0;
 for J = 1:Tap_number
 y = y + b(J)*fifo(J);
@@ -42,7 +42,7 @@ for J = 1:Tap_number
 b(J) = b(J) + u*e(i)*fifo(J);
 end;
 out(i)=y;
-
+%
 end
 figure
 plot(t,y,'r',t,signal,'b')

@@ -25,7 +25,6 @@ simulation/
 *.sh
 *.vdi
 *.log
-*.tcl
 *.bat
 *.dcp
 *.jou

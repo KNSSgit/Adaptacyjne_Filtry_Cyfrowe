@@ -122,7 +122,7 @@ set files [list \
  "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/Obs³uga_audio/src/audio_init.v"]"\
  "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/Obs³uga_audio/src/Audio_Codec_Wrapper.vhd"]"\
  "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/Obs³uga_audio/src/TWICtl.vhd"]"\
- "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/Obs³uga_audi/src/i2s_ctl.vhd"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/Obs³uga_audio/src/i2s_ctl.vhd"]"\
  "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/Obs³uga_audio/src/top.v"]"\
 ]
 add_files -norecurse -fileset $obj $files

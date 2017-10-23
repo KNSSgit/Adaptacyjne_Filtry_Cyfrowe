@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 17.09.2017 12:17:40
-// Design Name: 
-// Module Name: top
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+
 
 
 module top
@@ -30,8 +12,8 @@ output  ac_dac_sdata,
 output ac_bclk,
 output ac_lrclk,
 inout  scl,
-inout sda
-
+inout sda,
+input sw
 );
 
 reg[23:0] L_bus_in, R_bus_in;
@@ -61,13 +43,58 @@ Audio_Codec_Wrapper audio_codec (
 
 );
 
+wire [23:0] wejscie;
+wire [23:0] wyjscie;
+reg [23:0] wyjscie_do_dac;
+reg sample;
 
-   
+always @*
+    begin
+        if(sw)
+            begin
+            wyjscie_do_dac = wyjscie;
+            end
+        else
+            begin
+            wyjscie_do_dac = wejscie;
+            end
+    end
 
-       
 
-    
-  
+
+generator generator_test(
+.data_out(wejscie),
+.clk(clk),
+.reset(reset)
+);
+
+notch_top notch_inst(
+.data_in(wejscie),
+.data_out(wyjscie),
+.sample_trig(sample),
+.clk(clk),
+.reset(reset)
+);
+
+
+
+reg [15:0] licznik;
+
+
+always @(posedge clk)
+    begin
+        if(licznik == 16'd5000)
+            begin
+                licznik <= 16'b0;
+                sample <= 1;
+            end
+        else
+            begin
+                licznik <= licznik + 16'd1;
+                sample <= 0;
+            end
+    end
+
 
     
     assign reset= ! reset_n;
@@ -83,8 +110,8 @@ Audio_Codec_Wrapper audio_codec (
             end            
             else if (ready == 1)
             begin
-            L_bus_in <= L_bus_out;
-            R_bus_in <= R_bus_out;
+            L_bus_in <= wyjscie_do_dac;
+            R_bus_in <= wyjscie_do_dac;
             end 
         end
         

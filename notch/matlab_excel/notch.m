@@ -11,7 +11,7 @@ close all;
 format long
 
 n = 4;      %rzad filtru
-fs = 2000;    %czestotliwosc probkowania
+fs = 20000;    %czestotliwosc probkowania
 f = 50;       %czestotliwosc wyciecia
 f1 = f-3;     %czestotliwosc mniejsza od f dla ktorej ampiltuda spada o 3dB
 f2 = f+3;     %czestotliwosc wieksza od f dla ktorej ampiltuda spada o 3dB
@@ -38,6 +38,7 @@ dataOut = filter(b,a,dataIn);    %po filtracji
 
 dataOut2 = filter(SOS(1, 1:3), SOS(1, 4:6), dataIn);
 dataOut3 = filter(SOS(2, 1:3), SOS(2, 4:6), dataOut2);  %sprawdzenie matrycy SOS
+
 
 figure;
 plot(t, dataIn, '-r' ,t, dataOut, '-b', t, dataOut3, '-g' )

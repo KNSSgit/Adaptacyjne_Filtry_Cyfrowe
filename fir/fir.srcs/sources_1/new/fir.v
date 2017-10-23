@@ -52,7 +52,7 @@ module fir
                     delay[3] <= delay[2];
                     delay[4] <= delay[3];
                     delay[5] <= delay[4];
-                    out <= sum[DATA_SIZE+COEF_SIZE-1:COEF_SIZE];
+                    out <= sum[DATA_SIZE+COEF_SIZE-1-2:COEF_SIZE+2];
                 end
         end
         

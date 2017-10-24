@@ -1,12 +1,20 @@
-function [  ] = hdl_creator( SOS, rzad,ile_bit,g )
-% jako argument podajesz SOS w postaci dziesi?tej ale z shiftem
-% rz?d filtru
-%ile bitów maj? wspó?czynniki i liczb? g w takiej postaci jak wspó?czynniki
-%`
+function [  ] = hdl_creator( SOS, rzad,ile_bit,g,nazwa_modulu )
+% Generacja hdl dla topa filtru
+% Uzycie: hdl_creator(SOS,rzad,ile_bit,g,nazwa_modulu)
+%
+% Funkcja generuje kod w jezyku verilog. Po wyko¿ystaniu funkcji nale¿y
+% przekopiowaæ kod do odpowiedniego pliku w projekcie u¿ywaj¹cym filtry IIR
+% o okreœlonych wspolczynnikach
+% SOS - macie¿ wspo³czynników w notacji ktorej uzywa funkcja fixpoint (wartosci hexadecymalne)
+% rzad- rz¹d filtru (ilosc instancji sos)
+% ile_bit - okteœlenie ilu bitowe sa wspolcznniki
+% g - wspolczynnik normujacy wynik ktory powstaje z macieza sos (w notacji funkcji fixpoint)
+% nazwa_modulu - nazwa instancji top w projekcie
+
 rzad_pom=rzad;
 file=fopen('src/top_filter.v','w');
 fprintf(file,'`timescale 1ns/1ps\n\n');
-fprintf(file,'module top_filter\n ');
+fprintf(file,'module %s\n ',nazwa_modulu);
 fprintf(file,'\t#(parameter COEF_SIZE=%d,\n\t  parameter DATA_SIZE=24)\n',ile_bit);
 fprintf(file,'\t(input [DATA_SIZE-1:0] data_in,\n');
 fprintf(file,'\t  input reset,\n');

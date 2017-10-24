@@ -4,7 +4,8 @@ fs=6000;
 fc=400;
 
 [b,a]=cheby2(6,80,2*fc/fs);
-%[b,a] = butter(6,fc/(fs/2));
+rzad=6;
+liczba_bit=20;
 figure(2)
 freqz(b,a);
 [sos,g]=tf2sos(b,a);
@@ -19,14 +20,15 @@ d=zeros(3,1); % clear delay line
 
 for i=1:3
     for j=1:6
-        [A,sos2(i,j),sos3(i,j)]=fixpoint(sos(i,j),16);
+        sos3(i,j)=fixpoint(sos(i,j),liczba_bit);
     end
 end
 
-sos3
-sos2
-[l,k,m]=fixpoint(g_prim,16);
+
+m=fixpoint(g_prim,liczba_bit);
 m
+hdl_creator(sos3,rzad/2,liczba_bit,m,'High_pas_top')
+
 %{
 for i=1:3
 b=sos(i,1:3);

@@ -1,11 +1,13 @@
-%liczba- liczba jaka chcemy przeksztalcic
-%shift- ile bitowa ta liczba ma byc  ogolnie to jest tak napisane ze
-%wychodzi 2.shift-2
-%wynik_bin w kodzie U2
-%wynik_dec liczba po zaokragleniu
-%wynik3 wynik liczbowy który jest przekonwertowanym wynikiem binarnym
-
-function [ wynik_bin,wynik_dec,wynik3 ] = fixpoint( liczba,shift)
+function wynik = fixpoint( liczba,shift)
+% Konwersja liczby dziesientnej na binarna stalo przecinkowa
+% Uzycie- wynik=fixpoint(liczba,shift)
+%
+% Funkcja konwertuje liczbe dziesietna na binarna o okteslonym przesunieciu
+% (stalo przecinkowa)
+%
+% liczba- liczba jaka chcemy przeksztalcic
+% shift- ile bitowa ta liczba ma byc  ogolnie to jest tak napisane ze wychodzi 2.shift-2
+% wynik wynik dziesietny który jest przekonwertowanym wynikiem binarnym
 fixp=liczba*2^(shift-2);
 rfixp1=round(fixp);
 rfixp=abs(rfixp1);
@@ -30,6 +32,6 @@ if (liczba<0)
 end
 wynik_bin=bin;
 wynik_dec=rfixp1/2^(shift-2);
-wynik3=bin2dec(bin);
+wynik=bin2dec(bin);
 end
 

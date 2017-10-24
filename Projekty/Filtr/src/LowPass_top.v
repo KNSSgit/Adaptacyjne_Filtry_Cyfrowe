@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module Notch_top
+module LowPass_top
  	#(parameter COEF_SIZE=20,
 	  parameter DATA_SIZE=24)
 	(input [DATA_SIZE-1:0] data_in,

@@ -86,7 +86,7 @@ for i=1:rzad
        if i==1
         fprintf(file,'\t .data_out(data_connection_1),\n');
        elseif (i==2)
-           fprintf(file,'\t .data_out(data_connection_2)),\n');  
+           fprintf(file,'\t .data_out(data_connection_2),\n');  
        elseif (i==3)
           fprintf(file,'\t .data_out(data_out),\n'); 
        end
@@ -117,7 +117,7 @@ for i=1:rzad
          end
      end
      if i==3
-        fprintf(file,'\t .sample_trig(filter_done_second)\n');
+        fprintf(file,'\t .sample_trig(filter_done_second),\n');
         fprintf(file,'\t .filter_done(filter_end)\n');
      end
      fprintf(file,'\t);\n');

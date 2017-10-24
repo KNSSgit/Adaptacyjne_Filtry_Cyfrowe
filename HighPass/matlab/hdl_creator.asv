@@ -9,8 +9,7 @@ function [  ] = hdl_creator( SOS, rzad,ile_bit,g,nazwa_modulu )
 % rzad- rz¹d filtru (ilosc instancji sos)
 % ile_bit - okteœlenie ilu bitowe sa wspolcznniki
 % g - wspolczynnik normujacy wynik ktory powstaje z macieza sos (w notacji funkcji fixpoint)
-% nazwa_modulu - nazwa instancji top w projekcie
-
+% 
 rzad_pom=rzad;
 file=fopen('src/top_filter.v','w');
 fprintf(file,'`timescale 1ns/1ps\n\n');

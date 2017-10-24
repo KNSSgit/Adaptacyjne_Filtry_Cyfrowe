@@ -28,7 +28,7 @@ sos3
 
 [l,k,m]=fixpoint(g,liczba_bit);
 
-hdl_creator(sos3,1,liczba_bit,m)
+hdl_creator(sos3,1,liczba_bit,m,'dmm')
 m
 
 for i=k

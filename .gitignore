@@ -30,6 +30,9 @@ simulation/
 *.jou
 *.vds
 
+#Matlab
+*.asv
+
 *.cache/
 *.hw/
 *.ip_user_files/

@@ -26,41 +26,12 @@ ftype = 'stop';             %typ filtru pasmowo zaporowy
 
 for i=1:n/2
     for j=1:6
-        [A,sos2(i,j),sos3(i,j)]=fixpoint(SOS(i,j),liczba_bit);
+        sos3(i,j)=fixpoint(SOS(i,j),liczba_bit);
     end
 end
 
-[l,k,m]=fixpoint(G^(1/2),liczba_bit);
-
-hdl_creator(sos3,n/2,liczba_bit,m)
-
-N=2048;         %iloœæ próbek do wykresu
-ts=1/fs;        %okres próbkowania
-
-t = ts*(0:N-1);     %wektor czasu 
+m=fixpoint(G^(1/2),liczba_bit);
+hdl_creator(sos3,n/2,liczba_bit,m,'Notch_top')
 
 figure;
 freqz(b,a, 2^16)
-
-dataIn = sin(2*pi*f*t);          %sinus o czêstotliwoœci odfiltrowywanej
-dataOut = filter(b,a,dataIn);    %po filtracji 
-
-dataOut2 = filter(SOS(1, 1:3), SOS(1, 4:6), dataIn);
-dataOut3 = filter(SOS(2, 1:3), SOS(2, 4:6), dataOut2);  %sprawdzenie matrycy SOS
-
-figure;
-plot(t, dataIn, '-r' ,t, dataOut, '-b', t, dataOut3, '-g' )
-
-
-disp(['Wspó³czynnik b0 filtru pierwszego: ', dec2fixpoint(SOS(1,1), 32)]);
-disp(['Wspó³czynnik b1 filtru pierwszego: ', dec2fixpoint(SOS(1,2), 32)]);
-disp(['Wspó³czynnik b2 filtru pierwszego: ', dec2fixpoint(SOS(1,3), 32)]);
-disp(['Wspó³czynnik a0 filtru pierwszego: ', dec2fixpoint(SOS(1,4), 32)]);
-disp(['Wspó³czynnik a1 filtru pierwszego: ', dec2fixpoint(SOS(1,5), 32)]);
-disp(['Wspó³czynnik a2 filtru pierwszego: ', dec2fixpoint(SOS(1,6), 32)]);
-disp(['Wspó³czynnik b0 filtru drugiego:   ', dec2fixpoint(SOS(2,1), 32)]);
-disp(['Wspó³czynnik b1 filtru drugiego:   ', dec2fixpoint(SOS(2,2), 32)]);
-disp(['Wspó³czynnik b2 filtru drugiego:   ', dec2fixpoint(SOS(2,3), 32)]);
-disp(['Wspó³czynnik a0 filtru drugiego:   ', dec2fixpoint(SOS(2,4), 32)]);
-disp(['Wspó³czynnik a1 filtru drugiego:   ', dec2fixpoint(SOS(2,5), 32)]);
-disp(['Wspó³czynnik a2 filtru drugiego:   ', dec2fixpoint(SOS(2,6), 32)]);

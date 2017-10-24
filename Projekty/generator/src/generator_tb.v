@@ -17,7 +17,7 @@ module generator_tb();
     reg reset;
     wire [23:0] data_out;
     
-    generator generator_inst(
+    gen_ekg_zabrudzony generator_inst(
         .data_out(data_out),
         .clk(clk),
         .reset(reset)

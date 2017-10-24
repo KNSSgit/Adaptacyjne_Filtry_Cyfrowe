@@ -41,3 +41,12 @@ clk_wiz_1_sim_netlist.v
 clk_wiz_1_sim_netlist.vhdl
 clk_wiz_1_stub.v
 clk_wiz_1_stub.vhdl
+clk_wiz_1.v
+clk_wiz_1.xdc
+clk_wiz_1.vhdl
+clk_wiz_1_board.xdc
+clk_wiz_1_clk_wiz.v
+clk_wiz_1_ooc.xdc
+
+*.vh
+

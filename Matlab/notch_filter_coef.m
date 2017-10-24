@@ -11,7 +11,7 @@ close all;
 format long
 liczba_bit=20;
 n = 4;      %rz¹d filtru
-fs = 20000;    %czêstotliwoœæ próbkowania
+fs = 2000;    %czêstotliwoœæ próbkowania
 f = 50;       %czêstotliwoœæ wyciêcia
 f1 = f-3;     %czêstotliwoœæ mniejsza od f dla której ampiltuda spada o 3dB
 f2 = f+3;     %czêstotliwoœæ wiêksza od f dla której ampiltuda spada o 3dB

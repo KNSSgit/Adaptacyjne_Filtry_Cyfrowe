@@ -5,9 +5,9 @@ function wynik = fixpoint( liczba,shift)
 % Funkcja konwertuje liczbe dziesietna na binarna o okteslonym przesunieciu
 % (stalo przecinkowa)
 %
-%liczba- liczba jaka chcemy przeksztalcic
-%shift- ile bitowa ta liczba ma byc  ogolnie to jest tak napisane ze wychodzi 2.shift-2
-%wynik wynik dziesietny który jest przekonwertowanym wynikiem binarnym
+% liczba- liczba jaka chcemy przeksztalcic
+% shift- ile bitowa ta liczba ma byc  ogolnie to jest tak napisane ze wychodzi 2.shift-2
+% wynik wynik dziesietny który jest przekonwertowanym wynikiem binarnym
 fixp=liczba*2^(shift-2);
 rfixp1=round(fixp);
 rfixp=abs(rfixp1);

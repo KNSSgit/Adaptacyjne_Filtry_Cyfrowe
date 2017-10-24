@@ -27,5 +27,5 @@ end
 
 m=fixpoint(g_prim,liczba_bit);
 m
-hdl_creator(sos3,rzad/2,liczba_bit,m,'Low_pas_top')
+hdl_creator(sos3,rzad/2,liczba_bit,m,'LowPass_top')
 

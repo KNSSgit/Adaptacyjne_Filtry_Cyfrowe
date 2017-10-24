@@ -20,6 +20,7 @@ fprintf(file,'\t(input [DATA_SIZE-1:0] data_in,\n');
 fprintf(file,'\t  input reset,\n');
 fprintf(file,'\t  input clk,\n');
 fprintf(file,'\t  input sample_trig,\n');
+fprintf(file,'\t  output filter_end,\n');
 fprintf(file,'\t  output [DATA_SIZE-1:0] data_out\n \t );\n\n');
 
 fprintf(file,'wire [DATA_SIZE-1:0] data_connection_1');
@@ -85,7 +86,7 @@ for i=1:rzad
        if i==1
         fprintf(file,'\t .data_out(data_connection_1),\n');
        elseif (i==2)
-           fprintf(file,'\t .data_out(data_connection_2)),\n');  
+           fprintf(file,'\t .data_out(data_connection_2),\n');  
        elseif (i==3)
           fprintf(file,'\t .data_out(data_out),\n'); 
        end
@@ -95,15 +96,29 @@ for i=1:rzad
      
     
     if i==1
-        fprintf(file,'\t .sample_trig(sample_trig),\n');
-        fprintf(file,'\t .filter_done(filter_done_first)\n');
+        if rzad==1
+           fprintf(file,'\t .sample_trig(sample_trig),\n');
+           fprintf(file,'\t .filter_done(filter_end)\n');
+       
+        else
+            fprintf(file,'\t .sample_trig(sample_trig),\n');
+            fprintf(file,'\t .filter_done(filter_done_first)\n');
+        end
     end
+
      if i==2
-        fprintf(file,'\t .sample_trig(filter_done_first),\n');
-        fprintf(file,'\t .filter_done(filter_done_second)\n');
+         if rzad==2
+             fprintf(file,'\t .sample_trig(filter_done_first),\n');
+             fprintf(file,'\t .filter_done(filter_end)\n');
+       
+         else
+             fprintf(file,'\t .sample_trig(filter_done_first),\n');
+            fprintf(file,'\t .filter_done(filter_done_second)\n');
+         end
      end
      if i==3
-        fprintf(file,'\t .sample_trig(filter_done_second)\n');
+        fprintf(file,'\t .sample_trig(filter_done_second),\n');
+        fprintf(file,'\t .filter_done(filter_end)\n');
      end
      fprintf(file,'\t);\n');
     

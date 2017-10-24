@@ -8,7 +8,7 @@
    
 %% Czysty sinus:
    fc = 50;                     % czestotliwosc sinusa
-   sinus = 770000.*sin(2*pi*fc*t)+1200000;
+   sinus = 770000.*sin(2*pi*fc*t);
    
 %% Zaburzony sinus
    fz = 200;                    % czestotliwoœæ sygnalu
@@ -30,8 +30,8 @@
     bin1 = dec2twos(sinus_zaokraglony(i+1),bit_len);
     bin2 = dec2twos(sinus_zaburzony_zaokraglony(i+1),bit_len);
     
-    fprintf(file1, 'rom[%u] = 24''b%X;\n',i,bin1);
-    fprintf(file2, 'rom[%u] = 24''b%X;\n',i,bin2);
+    fprintf(file1, 'rom[%u] = 24''b%s;\n',i,bin1);
+    fprintf(file2, 'rom[%u] = 24''b%s;\n',i,bin2);
   end
   
   fclose(file1);

@@ -38,4 +38,7 @@ simulation/
 *.ip_user_files/
 *.runs/
 *.sim/
-
+clk_wiz_1_sim_netlist.v
+clk_wiz_1_sim_netlist.vhdl
+clk_wiz_1_stub.v
+clk_wiz_1_stub.vhdl

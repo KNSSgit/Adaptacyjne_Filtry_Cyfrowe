@@ -22,7 +22,7 @@ plot(Orig_Sig)
   bit_len=24;
   
 for i=0:(length(out)-1)
-     [bin,dec]=U2(out(i+1),bit_len);
+     bin=dec2twos(out(i+1),bit_len);
      fprintf(file, 'rom[%u] = 24''b%s;\n',i,bin);
 end
   

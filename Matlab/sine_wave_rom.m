@@ -8,11 +8,11 @@
    
 %% Czysty sinus:
    fc = 50;                     % czestotliwosc sinusa
-   sinus = 770000.*sin(2*pi*fc*t);
+   sinus = 5600000.*sin(2*pi*fc*t);
    
 %% Zaburzony sinus
    fz = 200;                    % czestotliwoœæ sygnalu
-   temp = 350000.*sin(2*pi*fz*t);
+   temp = 2800000.*sin(2*pi*fz*t);
    sinus_zaburzony = sinus + temp;
    
 %% Zapis do pliku
@@ -21,8 +21,10 @@
 
    plot(t,sinus_zaokraglony,'-r',t,sinus_zaburzony_zaokraglony,'-b')
 
-   file1 = fopen('sinus_rom.txt', 'w');
-   file2 = fopen('sinus_zaburzony_rom.txt', 'w');
+   file1 = fopen('sinus.txt', 'w');
+   file2 = fopen('sinus_zaburzony.txt', 'w');
+   file1_rom = fopen('sinus_rom.txt', 'w');
+   file2_rom = fopen('sinus_zaburzony_rom.txt', 'w');
   
    bit_len = 24;                %dlugosc biotwa 
    
@@ -30,11 +32,12 @@
     bin1 = dec2twos(sinus_zaokraglony(i+1),bit_len);
     bin2 = dec2twos(sinus_zaburzony_zaokraglony(i+1),bit_len);
     
-    fprintf(file1, 'rom[%u] = 24''b%s;\n',i,bin1);
-    fprintf(file2, 'rom[%u] = 24''b%s;\n',i,bin2);
+    fprintf(file1, '%s \n',bin1);
+    fprintf(file2, '%s \n',bin2);
+    fprintf(file1_rom, 'rom[%u] = 24''b%s;\n',i,bin1);
+    fprintf(file2_rom, 'rom[%u] = 24''b%s;\n',i,bin2);
   end
   
   fclose(file1);
   fclose(file2);
-  
   

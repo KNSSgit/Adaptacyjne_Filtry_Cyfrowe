@@ -16,7 +16,7 @@ inout sda
 );
 reg[23:0] L_bus_in, R_bus_in;
 wire[23:0] L_bus_out,R_bus_out;
-wire[23:0] audio_o;
+wire[23:0] out_1,out_2,out_3;
 wire ready;
 wire reset;
 wire filter_done;
@@ -43,9 +43,25 @@ Audio_Codec_Wrapper audio_codec (
         .reset(reset),
         .clk(clk),
         .sample_trig(ready),
-        .data_out(audio_o)
-        //.filter_done(filter_done)
-);
+        .data_out(out_1)
+    );
+    
+        HighPass_top filtr_HighPass (
+        .data_in(out_1),
+        .reset(reset),
+        .clk(clk),
+        .sample_trig(ready),
+        .data_out(out_2)
+    );
+    
+        LowPass_top filtr_LowPass (
+        .data_in(out_2),
+        .reset(reset),
+        .clk(clk),
+        .sample_trig(ready),
+        .data_out(out_3)
+    );
+    
 assign reset= ! reset_n;
   always@(posedge clk)
     begin
@@ -58,8 +74,8 @@ assign reset= ! reset_n;
 	    else if (ready == 1)
 	    begin
 	       if (enable==1) begin
-		      L_bus_in <= audio_o;
-		      R_bus_in <= audio_o;
+		      L_bus_in <= out_3;
+		      R_bus_in <= out_3;
 		      end
 		   else begin
 		      L_bus_in<=R_bus_out;

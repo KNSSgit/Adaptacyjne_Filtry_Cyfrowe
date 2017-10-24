@@ -123,16 +123,16 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
 set files [list \
- "[file normalize "$origin_dir/../src/audio_init.v"]"\
- "[file normalize "$origin_dir/../src/filter_sos.v"]"\
- "[file normalize "$origin_dir/../src/generator.v"]"\
- "[file normalize "$origin_dir/../src/notch_top.v"]"\
- "[file normalize "$origin_dir/../src/Audio_Codec_Wrapper.vhd"]"\
- "[file normalize "$origin_dir/../src/TWICtl.vhd"]"\
- "[file normalize "$origin_dir/../src/i2s_ctl.vhd"]"\
- "[file normalize "$origin_dir/../src/top.v"]"\
- "[file normalize "$origin_dir/../src/generator_tb.v"]"\
- "[file normalize "$origin_dir/../src/notch_top_tb.v"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/audio_init.v"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/filter_sos.v"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/generator.v"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/notch_top.v"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/Audio_Codec_Wrapper.vhd"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/TWICtl.vhd"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/i2s_ctl.vhd"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/top.v"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/generator_tb.v"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/src/notch_top_tb.v"]"\
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -163,7 +163,7 @@ set_property -name "top" -value "top" -objects $obj
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
 set files [list \
- "[file normalize "$origin_dir/../ip/clk_wiz_1.xci"]"\
+ "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/ip/clk_wiz_1.xci"]"\
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -182,7 +182,7 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 set obj [get_filesets constrs_1]
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize "$origin_dir/../constr/constr.xdc"]"
+set file "[file normalize "C:/KNSS_GIT/Adaptacyjne_Filtry_Cyfrowe/Projekty/glowny/constr/constr.xdc"]"
 set file_added [add_files -norecurse -fileset $obj $file]
 set file "$origin_dir/../constr/constr.xdc"
 set file [file normalize $file]

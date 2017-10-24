@@ -1,32 +1,4 @@
--------------------------------------------------------------------------------
---                                                                 
---  COPYRIGHT (C) 2012, Digilent RO. All rights reserved
---                                                                  
--------------------------------------------------------------------------------
--- FILE NAME            : i2s_ctl.vhd
--- MODULE NAME          : I2S Control
--- AUTHOR               : Mihaita Nagy
--- AUTHOR'S EMAIL       : mihaita.nagy@digilent.ro
--------------------------------------------------------------------------------
--- REVISION HISTORY
--- VERSION  DATE         AUTHOR         DESCRIPTION
--- 1.0 	   2012-25-01   Mihaita Nagy   Created
--- 2.0      2012-02-04   Mihaita Nagy   Remade the i2s_transmitter.vhd and
---                                      i2s_receiver.vhd into one new module.
--- 3.0 	   2014-12-02   HegbeliC       Implemented edge detection for the
---                                      master mode and the division rate
---                                      for the different sampling rates
--------------------------------------------------------------------------------
--- KEYWORDS : I2S
--------------------------------------------------------------------------------
--- DESCRIPTION : This module implements the I2S transmitter and receiver 
---               interface, with a 32-bit Stereo data transmission. Parameter 
---               C_DATA_WIDTH sets the width of the data to be transmitted, 
---               with a maximum value of 32 bits. If a smaller width size is 
---               used (i.e. 24) than the remaining bits that needs to be 
---               transmitted to complete the 32-bit length, are automaticaly 
---               set to 0.
--------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 

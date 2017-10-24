@@ -14,13 +14,17 @@ Orig_Sig=f(1:2:length(f));
 plot(Orig_Sig)
 
   file=fopen('ekg_rom.txt','w');
-  Orig_Sig = -1*(Orig_Sig - 850) + 400;
+  Orig_Sig = Orig_Sig - 890;
   plot(Orig_Sig)
   
-  out = Orig_Sig .* 10000;
+  out = Orig_Sig .* 30000;
 
-  for i = 0:3599
-    fprintf(file, 'rom[%u] = 24''h%X;\n',i,out(i+1));
-  end
+  bit_len=24;
+  
+for i=0:(length(out)-1)
+     [bin,dec]=U2(out(i+1),bit_len);
+     fprintf(file, 'rom[%u] = 24''b%s;\n',i,bin);
+end
+  
   
   fclose(file);

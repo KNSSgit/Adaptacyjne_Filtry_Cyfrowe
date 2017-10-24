@@ -1,7 +1,7 @@
    clear all
    close all
 %% Specyfikacja czasowa:
-   fs = 20000;                  % czestotliwosc probkowania
+   fs = 2000;                  % czestotliwosc probkowania
    dt = 1/fs;                   % okres probkowania
    StopTime = 0.02;             % czas trwania sygnalu
    t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach

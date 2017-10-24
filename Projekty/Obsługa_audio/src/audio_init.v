@@ -1,25 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 07/08/2015 06:07:53 PM
-// Design Name: 
-// Module Name: audio_init
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
 
 module audio_init(
     input clk,
@@ -84,7 +63,7 @@ module audio_init(
             30: initWord <= {IWR,31'h40F30100};
             31: initWord <= {IWR,31'h40F40000};
             32: initWord <= {IWR,31'h40000900}; // jlf changed from h40000F00 to make Fs = 48KHz
-            33: initWord <= {IWR,31'h4002007D};//This sends the address of the PLL reg and the first config bits
+            33: initWord <= {IWR,31'h4002007D};//This ssends the address of the PLL reg and the first config bits
             34: initWord <= {IWR,31'h000C2101}; //These are the config bytes for the PLL reg
         endcase
     end

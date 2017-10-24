@@ -1,32 +1,10 @@
-----------------------------------------------------------------------------------
--- Name:	Maj Jeff Falkinburg
--- Date:	Spring 2017
--- File:    Audio_Codec_Wrapper.vhdl
--- HW:	    Lab 2 
--- Pupr:	Interface to the Nexys Video Boards ADAU1761 SigmaDSP audio codec
---
--- Doc:	    Adapted from the Digilent Nexys Video looper example 
--- 	
--- Academic Integrity Statement: I certify that, while others may have 
--- assisted me in brain storming, debugging and validating this program, 
--- the program itself is my own work. I understand that submitting code 
--- which is the work of other individuals is a violation of the honor   
--- code.  I also understand that if I knowingly give my original work to 
--- another individual is also a violation of the honor code. 
-----------------------------------------------------------------------------------
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+
 
 entity Audio_Codec_Wrapper is
     Port ( clk : in STD_LOGIC;

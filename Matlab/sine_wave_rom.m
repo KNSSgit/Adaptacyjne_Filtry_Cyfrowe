@@ -1,7 +1,7 @@
    clear all
    close all
 %% Specyfikacja czasowa:
-   fs = 20000;                  % czestotliwosc probkowania
+   fs = 2000;                  % czestotliwosc probkowania
    dt = 1/fs;                   % okres probkowania
    StopTime = 0.02;             % czas trwania sygnalu
    t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach
@@ -21,10 +21,10 @@
 
    plot(t,sinus_zaokraglony,'-r',t,sinus_zaburzony_zaokraglony,'-b')
 
-   file1 = fopen('sinus.txt', 'w');
-   file2 = fopen('sinus_zaburzony.txt', 'w');
-   file1_rom = fopen('sinus_rom.txt', 'w');
-   file2_rom = fopen('sinus_zaburzony_rom.txt', 'w');
+   file1 = fopen('sygnaly/sinus.txt', 'w');
+   file2 = fopen('sygnaly/sinus_zaburzony.txt', 'w');
+   file1_rom = fopen('sygnaly/sinus_rom.txt', 'w');
+   file2_rom = fopen('sygnaly/sinus_zaburzony_rom.txt', 'w');
   
    bit_len = 24;                %dlugosc biotwa 
    

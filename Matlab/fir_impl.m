@@ -10,18 +10,21 @@ close all;
    Fc = 10;         
    Fn=50 ;                          % Czêstotliwoœæ szumu
    x = sin(2*pi*Fc*t);         % sygna³ bez szumu
-   noise=50.*cos(2*pi*Fn*t);        % szum
-   signal=x+0.3*randn(size(x));
+   noise=0.5.*cos(2*pi*Fn*t);        % szum
+   noise_2=0.5.*randn(size(x));
+   signal=x+noise_2;
 
 
    %%
-Tap_number=100;                      % rz¹d filtru fir
+Tap_number=30;                      % rz¹d filtru fir
 fifo=zeros(1,Tap_number);           %rejestry opóŸniaj¹ce
-b = zeros(1,Tap_number);            %zmienna przetrzymuj¹ca wspó³czynniki filtru fir
+b = ones(1,Tap_number);            %zmienna przetrzymuj¹ca wspó³czynniki filtru fir
 b(1) = 1;
-u=0.01;                         % ma³a liczba okreœlaj¹ca zbie¿noœæ algorytmu
-delay=2;
+u=0.0001;                         % ma³a liczba okreœlaj¹ca zbie¿noœæ algorytmu
+delay=2000;
 czas=1:length(t)-delay;
+
+%% Filtracja
 for i=1:length(t)-delay
 % przesówanie rejestrów opóŸniaj¹cych
 for k=Tap_number:-1:2
@@ -33,14 +36,14 @@ y=0;
 for J = 1:Tap_number
 y = y + b(J)*fifo(J);
 end
-
+out(i)=y;
 e(i)=signal(i)-y;       % Obliczenie b³êdu
 
 %obliczenie wspó³czynników filtru na nastêpn¹ próbkê 
 for J = 1:Tap_number
 b(J) = b(J) + u*e(i)*fifo(J);
 end
-out(i)=y;
+
 %
 end
 

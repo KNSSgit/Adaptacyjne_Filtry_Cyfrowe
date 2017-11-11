@@ -14,8 +14,8 @@ time = 50;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 8.*cos(2*pi*freq*t);        % zaklocenie
+   freq = 50;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   noise = 6.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -24,16 +24,19 @@ time = 50;              %czas dzialania                                    !!!!!
     a = 2*cos(w); 
     a_test = a;
     u = 1;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
-    r = 0.8;                          %szerokosc notcha                    !!!!!!!!!!szerokosc notcha
+    r = 0.90;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise;
     sig = signal/1000;
 
 %% Pierwsza filtracja
-    fc = 45;
-    [b,m] = butter(6,2*fc/fs,'high');
-    filter_out = filter(b,m,sig);
+    fc1 = 45;
+    [b1,m1] = butter(6,2*fc1/fs,'high');
+    fc2 = 65;
+    [b2,m2] = butter(6,2*fc2/fs,'low');
+    filter_out = filter(b1,m1,sig);
+    filter_out = filter(b2,m2,filter_out);
     x = filter_out;
 
 %% Adaptowanie filtru

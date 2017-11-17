@@ -16,7 +16,10 @@ h  = fdesign.bandpass('N,Fp1,Fp2,Ast1,Ap,Ast2', N, Fpass1, Fpass2, ...
                       Astop, Apass, Astop, Fs);
 Hd = design(h, 'ellip');
 
-Hd.sosMatrix
-Hd.ScaleValues
 
-% [EOF]
+for i = 1:(N/2)
+    Hd.sosMatrix(i,1:3) = Hd.sosMatrix(i,1:3) * Hd.ScaleValue(i);
+end
+
+[b,a] = sos2tf(Hd.sosMatrix);
+freqz(b,a);

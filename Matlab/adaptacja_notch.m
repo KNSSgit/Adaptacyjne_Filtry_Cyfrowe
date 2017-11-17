@@ -3,7 +3,7 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 50;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+time = 20;              %czas dzialania                                    !!!!!!!!!!czas dzialania
     
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
@@ -14,8 +14,8 @@ time = 50;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 50;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 6.*cos(2*pi*freq*t);        % zaklocenie
+   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -23,8 +23,8 @@ time = 50;              %czas dzialania                                    !!!!!
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 1;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
-    r = 0.90;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    u = 10;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
+    r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise;

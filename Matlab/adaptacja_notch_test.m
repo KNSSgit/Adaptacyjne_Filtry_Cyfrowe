@@ -14,7 +14,7 @@ time = 20;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   freq = 48;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
    noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
@@ -30,30 +30,19 @@ time = 20;              %czas dzialania                                    !!!!!
     signal = Orig_Sig + noise;
     sig = signal/1000;
 
-%{ 
+
 %% Pierwsza filtracja
+
+rzad = 4;
     fc1 = 45;
-    [b1,m1] = butter(6,2*fc1/fs,'high');
     fc2 = 65;
-    [b2,m2] = butter(6,2*fc2/fs,'low');
-    filter_out = filter(b1,m1,sig);
-    filter_out = filter(b2,m2,filter_out);
-    x = filter_out;
-%} 
-%    [b1,m1]=butter(2,2*45/fs,'high');
- %   x = filter(b1,m1,sig);
-rzad = 2;
-h  = fdesign.bandpass('N,Fp1,Fp2,Ast1,Ap,Ast2', rzad, 45, 65, 200, 1, 200, 2000);
-Hd = design(h, 'ellip');
+[b1,m1] = ellip(rzad,1,100,[2*fc1/fs, 2*fc2/fs],'bandpass');
+freqz(b1,m1)
 
-for i = 1:(rzad/2)
-    Hd.sosMatrix(i,1:3) = Hd.sosMatrix(i,1:3) * Hd.ScaleValue(i);
-end
-
-[b1,m1] = sos2tf(Hd.sosMatrix);
 x = filter(b1,m1,sig);
 abc = filter(b1,m1,sig);
- 
+figure()
+semilogy(abs(fftshift(fft(abc))))
 %% Adaptowanie filtru
     x1 = 0;
     x2 = 0;

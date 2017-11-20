@@ -40,11 +40,9 @@ rzad = 4;
 freqz(b1,m1)
 
 filter_sig = filter(b1,m1,sig);
-abc = filter(b1,m1,sig);
-figure()
-semilogy(abs(fftshift(fft(abc))))
-
-x=filter_sig;
+%abc = filter(b1,m1,sig);
+%figure()
+%semilogy(abs(fftshift(fft(abc))))
 %%Przygotowanie danych fixpoint
 %for liczba=t
 %    x(i)=dec2twos(filter_sig,40);
@@ -57,16 +55,17 @@ x=filter_sig;
     R2 = 0;
     R1 = 0;
     y1 = 0;
+    x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
     for i = 1:N 
-        R3=R1+x(i);
+        R3=R1+x(i);                 %pierwszy takt
+                                
+        R1=R2+(-a*x(i))-R3*(r*a);   %drugi takt
         
-        R1=R2+(-a*x(i))-R3*(r*a);
-        
-        a_next=a+2*u*R3*(x1-y1);
+        a_next=a+2*u*R3*(x1-y1);    %trzeci takt
         R2=x(i)-R3*r^2;
         
-        a=a_next;
+        a=a_next;                   %czwarty takt
         x1=x(i);
         y1=R3*r;
     end

@@ -24,7 +24,7 @@ time = 100;              %czas dzialania                                    !!!!
     a = 2*cos(w); 
     a_test = a;
     u = 0.5;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
-    r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    r = 0.98;                       %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise;

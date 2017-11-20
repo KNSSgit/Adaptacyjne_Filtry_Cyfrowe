@@ -15,7 +15,7 @@ time = 20;              %czas dzialania                                    !!!!!
    t = (0:dt:time-dt)';             % w sekundach
         
    freq = 48;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
+   noise = 10.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -43,30 +43,40 @@ filter_sig = filter(b1,m1,sig);
 abc = filter(b1,m1,sig);
 figure()
 semilogy(abs(fftshift(fft(abc))))
+
+x=filter_sig;
 %%Przygotowanie danych fixpoint
-for liczba=t
-    x(i)=dec2twos(filter_sig,40);
-end
-    a=fixpoint(a,40);
-    u=fixpoint(2*u,40);
+%for liczba=t
+%    x(i)=dec2twos(filter_sig,40);
+%end
+%    a=fixpoint(a,40);
+%    u=fixpoint(2*u,40);
 %% Adaptowanie filtru
     x1 = 0;
-    x2 = 0;
+    R3 = 0;
+    R2 = 0;
+    R1 = 0;
     y1 = 0;
-    y2 = 0;
-    a1 = 0;
+    a_next = 0;
     for i = 1:N 
-        y(i) = x(i)-a*x1+x2+a*r*y1-r*r*y2;
-        a1(i) = a+2*u*y(i)*(x1-r*y1);
-        a = a1(i);
-        y2 = y1; 
-        y1 = y(i);
-        x2 = x1;
-        x1 = x(i);
+        R3=R1+x(i);
+        
+        R1=R2+(-a*x(i))-R3*(r*a);
+        
+        a_next=a+2*u*R3*(x1-y1);
+        R2=x(i)-R3*r^2;
+        
+        a=a_next;
+        x1=x(i);
+        y1=R3*r;
     end
 
 %% Filtracja adaptacyjna
     x = signal;
+    x1 = 0;
+    x2 = 0;
+    y1 = 0;
+    y2 = 0;
     for i = 1:N 
         y(i) = x(i)-a*x1+x2+a*r*y1-r*r*y2;
         y2 = y1; 

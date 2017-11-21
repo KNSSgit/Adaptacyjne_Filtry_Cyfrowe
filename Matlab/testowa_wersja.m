@@ -3,7 +3,7 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 20;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+time = 200;              %czas dzialania                                    !!!!!!!!!!czas dzialania
     
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
@@ -14,7 +14,7 @@ time = 20;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 52;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   freq = 57;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
    noise = 5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
@@ -54,9 +54,9 @@ fc2 = 65;
              d(1)=b1(2)*y(n)-m1(2)*out_fy(n)+d(2);
              d(2)=b1(3)*y(n)-m1(3)*out_fy(n);
              %filtracja wejœcia
-             out_fx(n)=b1(1)*x1+d2(1);
-             d2(1)=b1(2)*x1-m1(2)*out_fx(n)+d2(2);
-             d2(2)=b1(3)*x1-m1(3)*out_fx(n); 
+             out_fx(n)=b1(1)*x(i)+d2(1);
+             d2(1)=b1(2)*x(i)-m1(2)*out_fx(n)+d2(2);
+             d2(2)=b1(3)*x(i)-m1(3)*out_fx(n); 
         
         a1(i) = a+2*u*out_fy(i)*(x_po_f-r*y_po_f);
         a = a1(i);
@@ -64,8 +64,8 @@ fc2 = 65;
         y1 = y(i);
         x2 = x1;
         x1 = x(i);
-        y_po_f=y(n);
-        x_po_f=x(n);
+        y_po_f=out_fy(n);
+        x_po_f=out_fx(n);
     end
 
 %% Wyswietlanie wykresow

@@ -14,7 +14,7 @@ time = 20;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 48;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   freq = 50;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
    noise = 10.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
@@ -36,7 +36,7 @@ time = 20;              %czas dzialania                                    !!!!!
 rzad = 4;
     fc1 = 45;
     fc2 = 65;
-[b1,m1] = ellip(rzad,1,100,[2*fc1/fs, 2*fc2/fs],'bandpass');
+[b1,m1] = ellip(rzad,3,200,[2*fc1/(fs), 2*fc2/(fs)],'bandpass');
 freqz(b1,m1)
 
 filter_sig = filter(b1,m1,sig);

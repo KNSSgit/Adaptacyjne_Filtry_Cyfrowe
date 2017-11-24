@@ -23,12 +23,12 @@ time = 20;              %czas dzialania                                    !!!!!
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 10;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
+    u = 0.00001;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
     r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise;
-    sig = signal/1000;
+    sig = signal;
 
 
 %% Pierwsza filtracja

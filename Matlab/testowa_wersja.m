@@ -3,7 +3,7 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 20;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+time = 200;              %czas dzialania                                    !!!!!!!!!!czas dzialania
     
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
@@ -14,8 +14,8 @@ time = 20;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
+   freq = 57;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   noise = 5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -23,21 +23,18 @@ time = 20;              %czas dzialania                                    !!!!!
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 10;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
-    r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    u = 1;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
+    r = 0.98;                       %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise;
-    sig = signal/1000;
+    x = signal/1000;
+%% wspó³czynniki filtru
+rzad = 1;
+fc1 = 45;
+fc2 = 65;
+[b1,m1] = ellip(rzad,1,50,[2*fc1/fs, 2*fc2/fs],'bandpass');
 
-%% Pierwsza filtracja
-    fc1 = 45;
-    [b1,m1] = butter(6,2*fc1/fs,'high');
-    fc2 = 65;
-    [b2,m2] = butter(6,2*fc2/fs,'low');
-    filter_out = filter(b1,m1,sig);
-    filter_out = filter(b2,m2,filter_out);
-    x = filter_out;
 
 %% Adaptowanie filtru
     x1 = 0;
@@ -45,27 +42,32 @@ time = 20;              %czas dzialania                                    !!!!!
     y1 = 0;
     y2 = 0;
     a1 = 0;
+    d=[0;0;0];
+    d2=[0;0;0];
+    y_po_f=0;
+    x_po_f=0;
     for i = 1:N 
         y(i) = x(i)-a*x1+x2+a*r*y1-r*r*y2;
-        a1(i) = a+2*u*y(i)*(x1-r*y1);
+             %filtracja wyjœcia
+             n=i;
+             out_fy(n)=b1(1)*y(n)+d(1);
+             d(1)=b1(2)*y(n)-m1(2)*out_fy(n)+d(2);
+             d(2)=b1(3)*y(n)-m1(3)*out_fy(n);
+             %filtracja wejœcia
+             out_fx(n)=b1(1)*x(i)+d2(1);
+             d2(1)=b1(2)*x(i)-m1(2)*out_fx(n)+d2(2);
+             d2(2)=b1(3)*x(i)-m1(3)*out_fx(n); 
+        
+        a1(i) = a+2*u*out_fy(i)*(x_po_f-r*y_po_f);
         a = a1(i);
         y2 = y1; 
         y1 = y(i);
         x2 = x1;
         x1 = x(i);
+        y_po_f=out_fy(n);
+        x_po_f=out_fx(n);
     end
 
-%% Filtracja adaptacyjna
-    x = signal;
-    for i = 1:N 
-        y(i) = x(i)-a*x1+x2+a*r*y1-r*r*y2;
-        y2 = y1; 
-        y1 = y(i);
-        x2 = x1;
-        x1 = x(i);
-    end
-
-    
 %% Wyswietlanie wykresow
     den_test = [1, -a_test*r, r^2];             %denominator odpowiedzi przed adaptacja
     nume_test = [1, -a_test, 1];                %numeraotr odpowiedzi przed adaptacja
@@ -85,13 +87,13 @@ time = 20;              %czas dzialania                                    !!!!!
     legend('Przed adaptacja', 'Po adaptacji');
       
     figure();
-    plot(t,signal,'-b',t,y,'-r');
+    plot(t,signal/1000,'-b',t,y,'-r');
     title('Sygnal');
     legend('Przed filtracja', 'Po filtracji');
     
     
     n = (-((N/2)-1) : N/2);
     figure();
-    semilogy(n * fs/N,abs(fftshift(fft(signal))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
+    semilogy(n * fs/N,abs(fftshift(fft(signal/1000))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
     title('Widmo');
     legend('Przed filtracja', 'Po filtracji');

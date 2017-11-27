@@ -23,12 +23,12 @@ time = 20;              %czas dzialania                                    !!!!!
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 0.00001;                            %wielkosc kroku  (ma³a ma byæ)!!!                     !!!!!!!!!!wielkosc kroku
+    u = 0.00000002;                  %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
     r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
-    signal = Orig_Sig + noise;
-    sig = signal;
+    signal = Orig_Sig + noise-900;
+    sig = signal*100;
 
 
 %% Pierwsza filtracja
@@ -62,7 +62,7 @@ filter_sig = filter(b1,m1,sig);
                                 
         R1=R2+(-a*x(i))-R3*(r*a);   %drugi takt
         
-        a_next=a+2*u*R3*(x1-y1);    %trzeci takt
+        a_next=a+u*R3*(x1-y1);      %trzeci takt
         R2=x(i)-R3*r^2;
         
         a=a_next;                   %czwarty takt
@@ -71,7 +71,7 @@ filter_sig = filter(b1,m1,sig);
     end
 
 %% Filtracja adaptacyjna
-    x = signal;
+    x = sig;
     x1 = 0;
     x2 = 0;
     y1 = 0;
@@ -104,13 +104,13 @@ filter_sig = filter(b1,m1,sig);
     legend('Przed adaptacja', 'Po adaptacji');
       
     figure();
-    plot(t,signal,'-b',t,y,'-r');
+    plot(t,sig,'-b',t,y,'-r');
     title('Sygnal');
     legend('Przed filtracja', 'Po filtracji');
     
     
     n = (-((N/2)-1) : N/2);
     figure();
-    semilogy(n * fs/N,abs(fftshift(fft(signal))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
+    semilogy(n * fs/N,abs(fftshift(fft(sig))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
     title('Widmo');
     legend('Przed filtracja', 'Po filtracji');

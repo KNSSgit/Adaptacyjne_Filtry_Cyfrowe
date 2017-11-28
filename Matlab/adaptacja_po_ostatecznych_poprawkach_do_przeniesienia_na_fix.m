@@ -18,17 +18,18 @@ time = 30;              %czas dzialania                                    !!!!!
    noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
-    fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
-    w = 2*pi*fi/fs;
+    fin = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    w = 2*pi*fin/fs;
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 0.0001;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
+    u = 0.0000001;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
     r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
-    signal = Orig_Sig + noise-900;
-    sig = signal;
+    signal = Orig_Sig + noise-800;
+    sig = signal*50000;
+    sig=round(sig);
 
 
 %% Pierwsza filtracja
@@ -40,15 +41,17 @@ rzad = 4;
 freqz(b1,m1)
 
 filter_sig = filter(b1,m1,sig);
-abc = filter(b1,m1,sig);
-figure()
-semilogy(abs(fftshift(fft(abc))))
+%abc = filter(b1,m1,sig);
+%figure()
+%semilogy(abs(fftshift(fft(abc))))
+filter_sig=round(filter_sig);
 %% Adaptowanie filtru
     x1 = 0;
     y1 = 0;
     r3_reg = 0;
     r2_reg = 0;
     r1_reg = 0;
+    r_3=r/100000;
     
     x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
@@ -63,19 +66,19 @@ semilogy(abs(fftshift(fft(abc))))
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
         r1_reg = r2_reg+z6_reg - z1_reg  ;   	%trzeci takt
-        z4_reg=r*y1;
+        z4_reg=r_3*y1;
 		z5_reg=u*r3_reg;
 		a_prev(i)=a;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        a=a_prev(i)+z5_reg*(x1-z4_reg);            %czwarty takt
-        r2_reg=x(i)-z3_reg;                  
-        x1=x(i);
+        a=a_prev(i)+z5_reg*(x1-z4_reg);            %czwarty takt    % z5_reg jest strasznie ma³e coœ bêdzie trzeba z tym zrobiæ 
+        r2_reg=x(i)-z3_reg;                                         % zapewne bêdzie trzeba dzieliæ x1 i z4_reg ¿eby by³y mniejsze
+        x1=x(i)/100000;
         y1=r3_reg;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
 
 %% Filtracja adaptacyjna
-    x = signal;
+    x = sig;
     x1 = 0;
     x2 = 0;
     y1 = 0;

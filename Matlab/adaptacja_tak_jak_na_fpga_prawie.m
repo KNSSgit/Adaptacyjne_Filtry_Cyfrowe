@@ -16,7 +16,7 @@ liczba_bit_wej=24;
    t = (0:dt:time-dt)';             % w sekundach
         
    freq = 48;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
+   noise = 10.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fin = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -24,12 +24,12 @@ liczba_bit_wej=24;
     N = length(noise);
     a = stal_przec(2*cos(w),liczba_bit); 
     a_test = a;
-    u = stal_przec(0.00002,liczba_bit)                  %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    u = stal_przec(0.00001,liczba_bit)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
     r = stal_przec(0.98,liczba_bit);                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise-900;
-    sig = signal*50000;
+    sig = signal;
     sig=round(sig);
 
 
@@ -48,42 +48,49 @@ filter_sig=round(filter_sig);
 %semilogy(abs(fftshift(fft(abc))))
 %% Adaptowanie filtru
 
-    x1 = 0;
-    R3 = 0;
-    R2 = 0;
-    R1 = 0;
-    y1 = 0;
+    x1 = stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
+    y1 = LB(0,liczba_bit_wej,0);
     R2=stal_przec(r^2,liczba_bit);
+    R3=stal_przec(r,liczba_bit);
     x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
-    r1_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2)
+    r1_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
     r2_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
     for i = 1:N 
-        r3_reg=r1_reg+stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2) %pierwszy takt
-             r3_reg=LB(r3_reg,liczba_bit_wej,0)
-		z2_reg=mult_fix_fix(r,a,liczba_bit)
-		z1_reg=a*u2(x(i),liczba_bit_wej)
+        r3_reg=r1_reg+stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2); %pierwszy takt
+             r3_reg=LB(r3_reg,liczba_bit_wej,0);                           % ucinamy R3_reg do 24 bitów ca³kowitych
+		z2_reg=r*a;
+            z2_reg=LB(z2_reg,2,liczba_bit-2);
+		z1_reg=a*u2(x(i),liczba_bit_wej);
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-		z6_reg=z2_reg*r3_reg					%drugi takt
-            %z6_reg=LB(z6_reg,liczba_bit_wej+2,liczba_bit-2
-        z3_reg=R2*r3_reg 
+		z6_reg=z2_reg*r3_reg;					%drugi takt
+           
+        z3_reg=R2*r3_reg ;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-        r1_reg = r2_reg+z6_reg - z1_reg     	%trzeci takt
-        %z4_reg=r*y1;
-		%z5_reg=u*r3_reg;
-		%a_prev(i)=a;
+        r1_reg = r2_reg+z6_reg - z1_reg ;    	%trzeci takt
+        z4_reg=R3*y1;
+		z5_reg=u*r3_reg;
+		a_prev(i)=a;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %a=a_prev(i)+z5_reg*(x1-z4_reg)            %czwarty takt
-        r2_reg=stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2)-z3_reg                  
-        %x1=x(i);
-        %y1=r3_reg;
+        a=a_prev(i)+z5_reg*(x1-z4_reg);            %czwarty takt
+            a=LB(a,2,liczba_bit-2);
+        r2_reg=stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2)-z3_reg  ;               
+        x1=x(i);
+            x1=LB(x1,liczba_bit_wej+2,liczba_bit-2) ;
+        y1=r3_reg;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % y(i)=r3_reg; % tylko do sprawdzania
+        aa(i)=a;
     end
 
+ a=double(a)
+ r=double(r)
+ a_test=double(a_test)  
 %% Filtracja adaptacyjna
-    x = signal;
+
+    x = sig;
     x1 = 0;
     x2 = 0;
     y1 = 0;
@@ -97,6 +104,7 @@ filter_sig=round(filter_sig);
     end
 
     
+
 %% Wyswietlanie wykresow
     den_test = [1, -a_test*r, r^2];             %denominator odpowiedzi przed adaptacja
     nume_test = [1, -a_test, 1];                %numeraotr odpowiedzi przed adaptacja

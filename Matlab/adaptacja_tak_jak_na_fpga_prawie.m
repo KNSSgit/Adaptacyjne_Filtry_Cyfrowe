@@ -3,8 +3,8 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 10;              %czas dzialania                                    !!!!!!!!!!czas dzialania
-liczba_bit=20;  
+time = 20;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+liczba_bit=30;  
 liczba_bit_wej=24;
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
@@ -15,7 +15,7 @@ liczba_bit_wej=24;
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 48;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
    noise = 10.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
@@ -47,20 +47,23 @@ filter_sig=round(filter_sig);
 %figure()
 %semilogy(abs(fftshift(fft(abc))))
 %% Adaptowanie filtru
+   x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
+
 
     x1 = stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
     y1 = LB(0,liczba_bit_wej,0);
-    R2=stal_przec(r^2,liczba_bit);
-    R3=stal_przec(r,liczba_bit);
-    x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
-    a_next = 0;
-    r1_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
-    r2_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
+    
+    R2=stal_przec(r^2,liczba_bit);      % r^2
+    R3=stal_przec(r,liczba_bit);        % docelowo r/10000 jeszcze siê zastanawiam
+   
+    r1_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2); % 26+18 bitowe zero
+    r2_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2); % 26+18 bitowe zero
+    
     for i = 1:N 
         r3_reg=r1_reg+stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2); %pierwszy takt
-             r3_reg=LB(r3_reg,liczba_bit_wej,0);                           % ucinamy R3_reg do 24 bitów ca³kowitych
+             r3_reg=LB(r3_reg,liczba_bit_wej,0);     % ucinamy R3_reg do 24 bitów ca³kowitych
 		z2_reg=r*a;
-            z2_reg=LB(z2_reg,2,liczba_bit-2);
+            z2_reg=LB(z2_reg,2,liczba_bit-2);        %ustawiamy odpowiedni¹ iloœæ bitów
 		z1_reg=a*u2(x(i),liczba_bit_wej);
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		

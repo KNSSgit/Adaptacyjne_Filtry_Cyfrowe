@@ -19,8 +19,8 @@ liczba_bit_wej=24;
    noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
-    fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
-    w = 2*pi*fi/fs;
+    fin = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    w = 2*pi*fin/fs;
     N = length(noise);
     a = stal_przec(2*cos(w),liczba_bit); 
     a_test = a;
@@ -53,27 +53,30 @@ filter_sig=round(filter_sig);
     R2 = 0;
     R1 = 0;
     y1 = 0;
+    R2=stal_przec(r^2,liczba_bit);
     x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
-    r1_reg=0;
-    r2_reg=0;
+    r1_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2)
+    r2_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
     for i = 1:N 
-        r3_reg=r1_reg+x(i) ;               	   %pierwszy takt
-		z2_reg=mult_fix_fix(r,a,liczba_bit);
-		z1_reg=a*x(i);
+        r3_reg=r1_reg+stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2) %pierwszy takt
+             r3_reg=LB(r3_reg,liczba_bit_wej,0)
+		z2_reg=mult_fix_fix(r,a,liczba_bit)
+		z1_reg=a*u2(x(i),liczba_bit_wej)
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-		z6_reg=z2_reg*r3_reg;					%drugi takt
-        z3_reg=r^(2)*r3_reg; 
+		z6_reg=z2_reg*r3_reg					%drugi takt
+            %z6_reg=LB(z6_reg,liczba_bit_wej+2,liczba_bit-2
+        z3_reg=R2*r3_reg 
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-        r1_reg = r2_reg+z6_reg - z1_reg ;    	%trzeci takt
+        r1_reg = r2_reg+z6_reg - z1_reg     	%trzeci takt
         %z4_reg=r*y1;
 		%z5_reg=u*r3_reg;
 		%a_prev(i)=a;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %a=a_prev(i)+z5_reg*(x1-z4_reg)            %czwarty takt
-        %r2_reg=x(i)-z3_reg ;                 
+        r2_reg=stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2)-z3_reg                  
         %x1=x(i);
         %y1=r3_reg;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,6 +131,9 @@ function y=stal_przec(v,liczba_bit)
 y=fi(v,1,liczba_bit,liczba_bit-2);
 end
 
+function y=stal_przec2(v,liczba_bit,l_2)
+y=fi(v,1,liczba_bit,l_2);
+end
 function wynik=mult_fix_fix(a,b,liczba_bit)
 w=a*b;
 wynik_bin=w.bin(1:length(w.bin)-(liczba_bit-2));
@@ -146,5 +152,9 @@ function y=u2(v,liczba_bit_wej)
 y=fi(v,1,liczba_bit_wej,0);
 end
 
-
+function wynik=cut(v,z_przodu,z_tylu)
+po_cut=v.bin(1+z_przodu:length(v.bin)-z_tylu-z_przodu);
+liczba_dec=twos2dec(po_cut);
+wynik=fi(liczba_dec/2^(v.FractionLength-z_tylu),1,v.WordLength-(z_przodu+z_tylu),v.FractionLength-z_tylu);
+end
 

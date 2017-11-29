@@ -92,7 +92,6 @@ if { $::argc > 0 } {
 set orig_proj_dir "[file normalize "$origin_dir/filtry_vivado/Obsluga_audio"]"
 
 # Create project
-create_project Obsluga_audio C:/KNSS -part xc7a200tsbg484-1 -force
 
 # Set the directory path for the new project
 set proj_dir [get_property directory [current_project]]

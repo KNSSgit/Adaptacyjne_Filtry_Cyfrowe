@@ -3,7 +3,7 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 15;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+time = 30;              %czas dzialania                                    !!!!!!!!!!czas dzialania
     
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
@@ -14,19 +14,22 @@ time = 15;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   freq = 48;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
    noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
-    fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
-    w = 2*pi*fi/fs;
+    fin = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    w = 2*pi*fin/fs;
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 15;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
+    u = 0.0000001;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
     r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
+    signal = Orig_Sig + noise-800;
+    sig = signal*50000;
+    sig=round(sig);
 
 
 %% Pierwsza filtracja
@@ -34,54 +37,48 @@ time = 15;              %czas dzialania                                    !!!!!
 rzad = 4;
     fc1 = 45;
     fc2 = 65;
-[b1,m1] = ellip(rzad,1,100,[2*fc1/(fs), 2*fc2/(fs)],'bandpass');
+[b1,m1] = ellip(rzad,1,100,[2*fc1/fs, 2*fc2/fs],'bandpass');
 freqz(b1,m1)
 
 filter_sig = filter(b1,m1,sig);
 %abc = filter(b1,m1,sig);
 %figure()
 %semilogy(abs(fftshift(fft(abc))))
-%%Przygotowanie danych fixpoint
-%for liczba=t
-%    x(i)=dec2twos(filter_sig,40);
-%end
-%    a=fixpoint(a,40);
-%    u=fixpoint(2*u,40);
+filter_sig=round(filter_sig);
 %% Adaptowanie filtru
-    we1 = 0;
-    R3 = 0;
-    R2 = 0;
-    R1 = 0;
-    wy1 = 0;
-    x1 = 0;     % do koñcowj wiltracji
-    x2 = 0;     %
-    y1 = 0;     %
-    y2 = 0;     %
+    x1 = 0;
+    y1 = 0;
+    r3_reg = 0;
+    r2_reg = 0;
+    r1_reg = 0;
+    r_3=r/100000;
+    
     x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
     for i = 1:N 
-        R3=R1+x(i);                 %pierwszy takt
-        
-                                
-        R1=R2+(-a*x(i))+R3*(r*a);   %drugi takt
-        
-        a_next(i)=a+2*u*R3*(we1-(r*wy1));    %trzeci takt
-        R2=x(i)-R3*r^2;
-        
-        a=a_next(i);                   %czwarty takt
-
-        we1=x(i);
-        wy1=R3;
-        %filtracja koñcowa
-        y(i) = signal(i)-a*x1+x2+a*r*y1-r*r*y2;
-        y2 = y1; 
-        y1 = y(i);
-        x2 = x1;
-        x1 = signal(i);
+        r3_reg=r1_reg+x(i);                	   %pierwszy takt
+		z2_reg=r*a;
+		z1_reg=a*x(i);
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+		z6_reg=z2_reg*r3_reg;					%drugi takt
+        z3_reg=r^(2)*r3_reg;    
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+        r1_reg = r2_reg+z6_reg - z1_reg  ;   	%trzeci takt
+        z4_reg=r_3*y1;
+		z5_reg=u*r3_reg;
+		a_prev(i)=a;
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        a=a_prev(i)+z5_reg*(x1-z4_reg);            %czwarty takt    % z5_reg jest strasznie ma³e coœ bêdzie trzeba z tym zrobiæ 
+        r2_reg=x(i)-z3_reg;                                         % zapewne bêdzie trzeba dzieliæ x1 i z4_reg ¿eby by³y mniejsze
+        x1=x(i)/100000;
+        y1=r3_reg;
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
 
 %% Filtracja adaptacyjna
-%{
+    x = sig;
     x1 = 0;
     x2 = 0;
     y1 = 0;
@@ -93,7 +90,7 @@ filter_sig = filter(b1,m1,sig);
         x2 = x1;
         x1 = x(i);
     end
-%}
+
     
 %% Wyswietlanie wykresow
     den_test = [1, -a_test*r, r^2];             %denominator odpowiedzi przed adaptacja
@@ -114,11 +111,13 @@ filter_sig = filter(b1,m1,sig);
     legend('Przed adaptacja', 'Po adaptacji');
       
     figure();
+    plot(t,sig,'-b',t,y,'-r');
     title('Sygnal');
     legend('Przed filtracja', 'Po filtracji');
     
     
     n = (-((N/2)-1) : N/2);
     figure();
+    semilogy(n * fs/N,abs(fftshift(fft(sig))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
     title('Widmo');
     legend('Przed filtracja', 'Po filtracji');

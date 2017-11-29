@@ -3,7 +3,7 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 200;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+time = 30;              %czas dzialania                                    !!!!!!!!!!czas dzialania
     
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
@@ -15,7 +15,7 @@ time = 200;              %czas dzialania                                    !!!!
    t = (0:dt:time-dt)';             % w sekundach
         
    freq = 57;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 5.*cos(2*pi*freq*t);        % zaklocenie
+   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -23,12 +23,12 @@ time = 200;              %czas dzialania                                    !!!!
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 1;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
+    u = 0.00001;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
     r = 0.98;                       %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise;
-    x = signal/1000;
+    x = signal;
 %% wspó³czynniki filtru
 rzad = 1;
 fc1 = 45;
@@ -87,13 +87,13 @@ fc2 = 65;
     legend('Przed adaptacja', 'Po adaptacji');
       
     figure();
-    plot(t,signal/1000,'-b',t,y,'-r');
+    plot(t,signal,'-b',t,y,'-r');
     title('Sygnal');
     legend('Przed filtracja', 'Po filtracji');
     
     
     n = (-((N/2)-1) : N/2);
     figure();
-    semilogy(n * fs/N,abs(fftshift(fft(signal/1000))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
+    semilogy(n * fs/N,abs(fftshift(fft(signal))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
     title('Widmo');
     legend('Przed filtracja', 'Po filtracji');

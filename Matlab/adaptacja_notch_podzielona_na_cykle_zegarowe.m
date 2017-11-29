@@ -3,7 +3,7 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 20;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+time = 15;              %czas dzialania                                    !!!!!!!!!!czas dzialania
     
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
@@ -14,8 +14,8 @@ time = 20;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 50;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 10.*cos(2*pi*freq*t);        % zaklocenie
+   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -23,7 +23,7 @@ time = 20;              %czas dzialania                                    !!!!!
     N = length(noise);
     a = 2*cos(w); 
     a_test = a;
-    u = 10;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
+    u = 15;                            %wielkosc kroku                      !!!!!!!!!!wielkosc kroku
     r = 0.98;                          %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
@@ -36,7 +36,7 @@ time = 20;              %czas dzialania                                    !!!!!
 rzad = 4;
     fc1 = 45;
     fc2 = 65;
-[b1,m1] = ellip(rzad,3,200,[2*fc1/(fs), 2*fc2/(fs)],'bandpass');
+[b1,m1] = ellip(rzad,1,100,[2*fc1/(fs), 2*fc2/(fs)],'bandpass');
 freqz(b1,m1)
 
 filter_sig = filter(b1,m1,sig);
@@ -50,28 +50,40 @@ filter_sig = filter(b1,m1,sig);
 %    a=fixpoint(a,40);
 %    u=fixpoint(2*u,40);
 %% Adaptowanie filtru
-    x1 = 0;
+    we1 = 0;
     R3 = 0;
     R2 = 0;
     R1 = 0;
-    y1 = 0;
+    wy1 = 0;
+    x1 = 0;     % do koñcowj wiltracji
+    x2 = 0;     %
+    y1 = 0;     %
+    y2 = 0;     %
     x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
     for i = 1:N 
         R3=R1+x(i);                 %pierwszy takt
-                                
-        R1=R2+(-a*x(i))-R3*(r*a);   %drugi takt
         
-        a_next=a+2*u*R3*(x1-y1);    %trzeci takt
+                                
+        R1=R2+(-a*x(i))+R3*(r*a);   %drugi takt
+        
+        a_next(i)=a+2*u*R3*(we1-(r*wy1));    %trzeci takt
         R2=x(i)-R3*r^2;
         
-        a=a_next;                   %czwarty takt
-        x1=x(i);
-        y1=R3*r;
+        a=a_next(i);                   %czwarty takt
+
+        we1=x(i);
+        wy1=R3;
+        %filtracja koñcowa
+        y(i) = signal(i)-a*x1+x2+a*r*y1-r*r*y2;
+        y2 = y1; 
+        y1 = y(i);
+        x2 = x1;
+        x1 = signal(i);
     end
 
 %% Filtracja adaptacyjna
-    x = signal;
+%{
     x1 = 0;
     x2 = 0;
     y1 = 0;
@@ -83,7 +95,7 @@ filter_sig = filter(b1,m1,sig);
         x2 = x1;
         x1 = x(i);
     end
-
+%}
     
 %% Wyswietlanie wykresow
     den_test = [1, -a_test*r, r^2];             %denominator odpowiedzi przed adaptacja

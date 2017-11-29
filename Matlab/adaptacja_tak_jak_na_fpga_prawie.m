@@ -4,8 +4,8 @@ close all
 
 fs = 360;               %czestotliwosc probkowania
 time = 20;              %czas dzialania                                    !!!!!!!!!!czas dzialania
-liczba_bit=30;  
-liczba_bit_wej=24;
+n=30;  
+k=24;
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
     f = fread(fid,2*360*time,'ubit12');
@@ -16,16 +16,16 @@ liczba_bit_wej=24;
    t = (0:dt:time-dt)';             % w sekundach
         
    freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 10.*cos(2*pi*freq*t);        % zaklocenie
+   noise = 5.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fin = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
     w = 2*pi*fin/fs;
     N = length(noise);
-    a = stal_przec(2*cos(w),liczba_bit); 
+    a = stal_przec(2*cos(w),n); 
     a_test = a;
-    u = stal_przec(0.00001,liczba_bit)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
-    r = stal_przec(0.98,liczba_bit);                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    u = stal_przec(0.00001,n)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    r = stal_przec(0.98,n);                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise-900;
@@ -50,21 +50,21 @@ filter_sig=round(filter_sig);
    x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
 
 
-    x1 = stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2);
-    y1 = LB(0,liczba_bit_wej,0);
+    x1 = stal_przec2(0,k+n,n-2);
+    y1 = LB(0,k,0);
     
-    R2=stal_przec(r^2,liczba_bit);      % r^2
-    R3=stal_przec(r,liczba_bit);        % docelowo r/10000 jeszcze siê zastanawiam
+    R2=stal_przec(r^2,n);      % r^2
+    R3=stal_przec(r,n);        % docelowo r/10000 jeszcze siê zastanawiam
    
-    r1_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2); % 26+18 bitowe zero
-    r2_reg=stal_przec2(0,liczba_bit_wej+liczba_bit,liczba_bit-2); % 26+18 bitowe zero
+    r1_reg=stal_przec2(0,k+n,n-2); % 26+18 bitowe zero
+    r2_reg=stal_przec2(0,k+n,n-2); % 26+18 bitowe zero
     
     for i = 1:N 
-        r3_reg=r1_reg+stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2); %pierwszy takt
-             r3_reg=LB(r3_reg,liczba_bit_wej,0);     % ucinamy R3_reg do 24 bitów ca³kowitych
+        r3_reg=r1_reg+stal_przec2(x(i),k+n,n-2); %pierwszy takt
+             r3_reg=LB(r3_reg,k,0);     % ucinamy R3_reg do 24 bitów ca³kowitych
 		z2_reg=r*a;
-            z2_reg=LB(z2_reg,2,liczba_bit-2);        %ustawiamy odpowiedni¹ iloœæ bitów
-		z1_reg=a*u2(x(i),liczba_bit_wej);
+            z2_reg=LB(z2_reg,2,n-2);        %ustawiamy odpowiedni¹ iloœæ bitów
+		z1_reg=a*u2(x(i),k);
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
 		z6_reg=z2_reg*r3_reg;					%drugi takt
@@ -78,10 +78,10 @@ filter_sig=round(filter_sig);
 		a_prev(i)=a;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         a=a_prev(i)+z5_reg*(x1-z4_reg);            %czwarty takt
-            a=LB(a,2,liczba_bit-2);
-        r2_reg=stal_przec2(x(i),liczba_bit_wej+liczba_bit,liczba_bit-2)-z3_reg  ;               
+            a=LB(a,2,n-2);
+        r2_reg=stal_przec2(x(i),k+n,n-2)-z3_reg  ;               
         x1=x(i);
-            x1=LB(x1,liczba_bit_wej+2,liczba_bit-2) ;
+            x1=LB(x1,k+2,n-2) ;
         y1=r3_reg;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % y(i)=r3_reg; % tylko do sprawdzania
@@ -138,34 +138,5 @@ filter_sig=round(filter_sig);
     title('Widmo');
     legend('Przed filtracja', 'Po filtracji');
 
-function y=stal_przec(v,liczba_bit)
-y=fi(v,1,liczba_bit,liczba_bit-2);
-end
 
-function y=stal_przec2(v,liczba_bit,l_2)
-y=fi(v,1,liczba_bit,l_2);
-end
-function wynik=mult_fix_fix(a,b,liczba_bit)
-w=a*b;
-wynik_bin=w.bin(1:length(w.bin)-(liczba_bit-2));
-wynik_dec=twos2dec(wynik_bin);
-wynik=fi(wynik_dec/2^(liczba_bit-2),1,liczba_bit,liczba_bit-2);
-end
-
-function wynik=mult_fix_u2(a,b,liczba_bit)
-w=a*b;
-wynik_bin=w.bin(1:length(w.bin)-(liczba_bit-2));
-wynik=twos2dec(wynik_bin);
-end
-
-
-function y=u2(v,liczba_bit_wej)
-y=fi(v,1,liczba_bit_wej,0);
-end
-
-function wynik=cut(v,z_przodu,z_tylu)
-po_cut=v.bin(1+z_przodu:length(v.bin)-z_tylu-z_przodu);
-liczba_dec=twos2dec(po_cut);
-wynik=fi(liczba_dec/2^(v.FractionLength-z_tylu),1,v.WordLength-(z_przodu+z_tylu),v.FractionLength-z_tylu);
-end
 

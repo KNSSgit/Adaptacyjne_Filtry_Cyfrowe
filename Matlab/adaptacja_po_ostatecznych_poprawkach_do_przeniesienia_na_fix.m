@@ -28,7 +28,7 @@ time = 30;              %czas dzialania                                    !!!!!
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise-800;
-    sig = signal*50000;
+    sig = signal*5000;
     sig=round(sig);
 
 
@@ -51,7 +51,7 @@ filter_sig=round(filter_sig);
     r3_reg = 0;
     r2_reg = 0;
     r1_reg = 0;
-    r_3=r/100000;
+    r_3=r/10000;
     
     x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
@@ -72,7 +72,7 @@ filter_sig=round(filter_sig);
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         a=a_prev(i)+z5_reg*(x1-z4_reg);            %czwarty takt    % z5_reg jest strasznie ma³e coœ bêdzie trzeba z tym zrobiæ 
         r2_reg=x(i)-z3_reg;                                         % zapewne bêdzie trzeba dzieliæ x1 i z4_reg ¿eby by³y mniejsze
-        x1=x(i)/100000;
+        x1=x(i)/10000;
         y1=r3_reg;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end

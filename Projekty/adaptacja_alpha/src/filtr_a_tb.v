@@ -4,9 +4,9 @@
 
 
 module filtr_a_tb
-#(parameter DATA_SIZE=5,COEF_SIZE=5)();
-reg [DATA_SIZE-1:0] data_in;
-wire [DATA_SIZE-1:0] data_out;
+#(parameter DATA_SIZE=25,COEF_SIZE=25)();
+reg [DATA_SIZE-2:0] data_in;
+wire [DATA_SIZE-2:0] data_out;
 reg reset,clk;
 reg sample;
 wire filter_done;

@@ -5,7 +5,7 @@ module mult
     (
     input [COEF_SIZE-1:0] in_1,
     input [COEF_SIZE-1:0] in_2,
-    output [2*COEF_SIZE-1:0] out
+    output [(COEF_SIZE+COEF_SIZE)-1:0] out
     );
     
     assign out=in_1*in_2;

@@ -102,7 +102,7 @@ if { $::argc > 0 } {
 # Set the directory path for the original project from where this script was exported
 set orig_proj_dir "[file normalize "$origin_dir/../../../../../KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_alpha"]"
 # Create project
-create_project Adaptacja_alpha C:/KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_alpha -part xc7a200tsbg484-1
+create_project Adaptacja_alpha C:/KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_alpha -part xc7a200tsbg484-1 -force
 
 # Set the directory path for the new project
 set proj_dir [get_property directory [current_project]]

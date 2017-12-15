@@ -8,8 +8,8 @@ module filtr_a
       parameter signed R2 = 25'b0,          // tu dajesz r^2
       parameter signed R3 = 25'b0,          // tu bêdzie wyskalowanie r narazie nie wa¿ne
       parameter signed U = 25'b0)           // u 
-    ( input [DATA_SIZE-2:0] data_in,        // dane wchodz¹ 24 bitowe ale dodajemy do nich 1 bit by wykozystac 2 mnozarki
-      output [DATA_SIZE-2:0] data_out,      // wychodz¹ dane 24 bit
+    ( input signed [DATA_SIZE-2:0] data_in,        // dane wchodz¹ 24 bitowe ale dodajemy do nich 1 bit by wykozystac 2 mnozarki
+      output signed [DATA_SIZE-2:0] data_out,      // wychodz¹ dane 24 bit
       input sample_trig,
       output reg filter_done,
       input clk,
@@ -111,26 +111,28 @@ module filtr_a
             S1:begin
                state_next = S2;
                filter_done = 1'b1;
-               r3_next = (data_in_ext + r1_reg);
+               r3_next = data_in_ext + r1_reg;
                mult1_coef1=R;									// wrzucamy danie do mno??arek
                mult1_coef2=A;                                    //
                mult2_coef1=A;                                    //
                mult2_coef2=data_in_ext;                        //
-               z2_next=(out_mult1>>>(COEF_SIZE-2));                               // tu jest niejawne obci?cie pocz?tkowych zer
-               z1_next=out_mult2;
+               //z2_next=out_mult1>>>(COEF_SIZE-2);                               // tu jest niejawne obci?cie pocz?tkowych zer
+               //z1_next=out_mult2;
             end //(S1)
             S2:begin
                state_next = S3;
-               mult1_coef1=z2_reg;									// wrzucamy danie do mno??arek
+               mult1_coef1=out_mult1>>>(COEF_SIZE-2);									// wrzucamy danie do mno??arek
                mult1_coef2=r3_reg;                                    //
                mult2_coef1=R2;                                        //
                mult2_coef2=r3_reg;                                    //
-               z6_next=out_mult1;
-               z3_next=out_mult2;
+               
+               //z6_next=out_mult1;
+               z1_next=out_mult2;
             end // (S2)
             S3:begin
                state_next = S4;
-               r1_next = (z6_reg + r2_reg - z1_reg)>>>(COEF_SIZE-2);
+               r1_next = (out_mult1 + r2_reg - z1_reg)>>>(COEF_SIZE-2);
+               z3_next=out_mult2;
                //mult1_coef1=y1;                                    // wrzucamy danie do mno??arek
                //mult1_coef2=R;                                    //
                //mult2_coef1=U;                                    //
@@ -140,7 +142,7 @@ module filtr_a
                //a_prev=A; 
             end // (S3)
             S4:begin
-			   r2_next = data_in_ext2+z3_reg;	
+			   r2_next = data_in_ext2-z3_reg;	
                //a=a_prev+z5_reg*(x1-z4_reg)
                state_next = IDLE;
                //y1=r3_reg;

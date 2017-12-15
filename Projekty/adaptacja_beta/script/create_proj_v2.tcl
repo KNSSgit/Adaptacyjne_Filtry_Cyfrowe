@@ -102,7 +102,7 @@ if { $::argc > 0 } {
 # Set the directory path for the original project from where this script was exported
 set orig_proj_dir "[file normalize "$origin_dir/../../../../../KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta"]"
 # Create project
-create_project Adaptacja_alpha C:/KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta -part xc7a200tsbg484-1 -force
+create_project Adaptacja_beta C:/KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta -part xc7a200tsbg484-1 -force
 
 # Set the directory path for the new project
 set proj_dir [get_property directory [current_project]]
@@ -183,9 +183,7 @@ set files [list \
 add_files -norecurse -fileset $obj $files
 
 # Import local files from the original project
-set files [list \
- "[file normalize "$origin_dir/../../../../../KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta/filtr_a_tb_behav.wcfg"]"\
-]
+
 set imported_files [import_files -fileset sim_1 $files]
 
 # Set 'sim_1' fileset file properties for remote files

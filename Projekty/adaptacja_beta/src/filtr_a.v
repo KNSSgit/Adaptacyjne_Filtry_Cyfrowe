@@ -20,13 +20,13 @@ module filtr_a
     reg signed [COEF_SIZE+DATA_SIZE-1-1-2+1:0]  r2_reg, r2_next; 
     reg signed [DATA_SIZE-1:0]                  r3_reg, r3_next;                      // bo ten rejestr jest odrazu obcinany                         // opóŸniene wyjœcie
     reg signed [COEF_SIZE+DATA_SIZE-2-1:0] z1_reg, z1_next; 
-    reg signed [COEF_SIZE-1:0]             z2_reg, z2_next;
+  //  reg signed [COEF_SIZE-1:0]             z2_reg, z2_next;
     reg signed [COEF_SIZE+DATA_SIZE-2-1:0] z3_reg, z3_next;    // rejestry przechowuj¹ce 
-    reg signed [COEF_SIZE+DATA_SIZE-1:0]   z4_reg, z4_next;    // rejestry przechowuj¹ce 
-    reg signed [COEF_SIZE+DATA_SIZE-1:0]   z5_reg, z5_next;    // rejestry przechowuj¹ce 
-    reg signed [COEF_SIZE+DATA_SIZE-2-1:0] z6_reg, z6_next;    // rejestry przechowuj¹ce 
-    reg signed [COEF_SIZE+DATA_SIZE-1:0] x1_next, x1_reg;                // wyskalowane opóŸnione wejœcie
-    reg signed [DATA_SIZE-1:0]           y1_next, y1_reg;  
+    reg signed [COEF_SIZE-1:0]   z4_reg, z4_next;    // rejestry przechowuj¹ce 
+    reg signed [COEF_SIZE-1:0]   z5_reg, z5_next;    // rejestry przechowuj¹ce 
+   // reg signed [COEF_SIZE+DATA_SIZE-2-1:0] z6_reg, z6_next;    // rejestry przechowuj¹ce 
+    reg signed [DATA_SIZE-1:0] x1_next, x1_reg;                // wyskalowane opóŸnione wejœcie
+    reg signed [DATA_SIZE-1:0] y1_next, y1_reg;  
     reg signed [COEF_SIZE-1:0] a_next, a_reg;
     reg signed [COEF_SIZE-1:0] a_prev_next, a_prev_reg;
 
@@ -69,11 +69,11 @@ module filtr_a
              r2_reg <= 0;
              r3_reg <= 0;
              z1_reg <= 0;
-             z2_reg <= 0;
+          //   z2_reg <= 0;
              z3_reg <= 0;
              z4_reg <= 0;
              z5_reg <= 0;
-             z6_reg <= 0;
+         //    z6_reg <= 0;
              a_reg  <= A;
              y1_reg <= 0;
              x1_reg <= 0;
@@ -85,11 +85,11 @@ module filtr_a
              r2_reg <= r2_next;
              r3_reg <= r3_next;
              z1_reg <= z1_next;
-             z2_reg <= z2_next;
+         //    z2_reg <= z2_next;
              z3_reg <= z3_next;
              z4_reg <= z4_next;
              z5_reg <= z5_next;
-             z6_reg <= z6_next;
+         //    z6_reg <= z6_next;
              a_reg  <= a_next;
              y1_reg <= y1_next;
              x1_reg <= x1_next;
@@ -110,11 +110,11 @@ module filtr_a
         r2_next = r2_reg;
         r3_next = r3_reg;
         z1_next = z1_reg;
-        z2_next = z2_reg;
+       // z2_next = z2_reg;
         z3_next = z3_reg;
         z4_next = z4_reg;
         z5_next = z5_reg;
-        z6_next = z6_reg;
+       // z6_next = z6_reg;
         a_next  = a_reg;
         x1_next = x1_reg;
         y1_next = y1_reg;
@@ -136,35 +136,33 @@ module filtr_a
                mult1_coef2=a_reg;                                    //
                mult2_coef1=a_reg;                                    //
                mult2_coef2=data_in_ext;                        //
-               z2_next=out_mult1>>>(COEF_SIZE-2);                               // tu jest niejawne obci?cie pocz?tkowych zer
-               z1_next=out_mult2;
             end //(S1)
             S2:begin
                state_next = S3;
-               mult1_coef1 = z2_reg;									// wrzucamy danie do mno??arek
+               mult1_coef1=out_mult1>>>(COEF_SIZE-2);										// wrzucamy danie do mno??arek
                mult1_coef2 = r3_reg;                                    //
                mult2_coef1 = R2;                                        //
                mult2_coef2 = r3_reg;                                    //
-               z6_next = out_mult1;
-               z3_next = out_mult2;
+               z1_next = out_mult2;
             end // (S2)
             S3:begin
                state_next = S4;
                a_prev_next=a_reg;
-               r1_next = (z6_reg + r2_reg - z1_reg)>>>(COEF_SIZE-2);
+               r1_next = (out_mult1 + r2_reg - z1_reg)>>>(COEF_SIZE-2);
+               z3_next = out_mult2;
                mult1_coef1 = y1_reg;                                    // wrzucamy danie do mno??arek
                mult1_coef2 = R;                                    //
                mult2_coef1 = U;                                    //
-               mult2_coef2 = r3_reg;                                //
-               z4_next = out_mult1;                               // to jest do adaptacji narazie nie wa?ne 
-               z5_next = out_mult2;                               // to jest do adaptacji narazie nie wa?ne              
+               mult2_coef2 = r3_reg;                                //           
             end // (S3)
             S4:begin
-			   r2_next = data_in_ext2+z3_reg;	
-               a_next  = (a_prev_reg<<(2*(COEF_SIZE-2))+z5_reg*(x1_reg-z4_reg))>>>(2*(COEF_SIZE-2));
+			   r2_next = data_in_ext2-z3_reg;	
+			   z4_next = out_mult1;                               // to jest do adaptacji narazie nie wa?ne 
+               z5_next = out_mult2;
+               a_next  = (a_prev_reg+z5_reg*(x1_reg-z4_reg));
                state_next = IDLE;
                y1_next = r3_reg;
-               x1_next = data_in_ext2;
+               x1_next = data_in_ext*25'd84;
             end // (S4)
             
                 

@@ -7,7 +7,7 @@
    t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach
    
 %% Czysty sinus:
-   fc = 100;                     % czestotliwosc sinusa
+   fc = 50;                     % czestotliwosc sinusa
    sinus = 5600000.*sin(2*pi*fc*t);
    
 %% Zaburzony sinus

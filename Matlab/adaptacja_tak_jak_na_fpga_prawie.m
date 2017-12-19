@@ -3,9 +3,9 @@ close all
 
 
 fs = 360;               %czestotliwosc probkowania
-time = 50;              %czas dzialania                                    !!!!!!!!!!czas dzialania
-n=25;  
-k=25;
+time = 30;              %czas dzialania                                    !!!!!!!!!!czas dzialania
+n=40;  
+k=40;
 %% Wczytanie EKG
     fid = fopen('100.dat','r');
     f = fread(fid,2*360*time,'ubit12');
@@ -16,7 +16,7 @@ k=25;
    t = (0:dt:time-dt)';             % w sekundach
         
    freq = 48;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
+   noise = 50.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fin = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
@@ -24,12 +24,12 @@ k=25;
     N = length(noise);
     a = stal_przec(2*cos(w),n); 
     a_test = a;
-    u = stal_przec(0.0000001,n)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    u = stal_przec(0.000000001,n)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
     r = stal_przec(0.98,n);                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
 
 %% Znieksztalcony EKG
     signal = Orig_Sig + noise-900;
-    sig = signal*3000;
+    sig = signal*30000;
     sig=round(sig);
 
 
@@ -54,7 +54,7 @@ filter_sig=round(filter_sig);
     y1 = LB(0,k,0);
     
     R2=stal_przec(r^2,n);      % r^2
-    R3=stal_przec(r/100000,n);        % docelowo r/10000 jeszcze siê zastanawiam
+    R3=stal_przec(r/500000,n);        % docelowo r/10000 jeszcze siê zastanawiam
    
     r1_reg=stal_przec2(0,k+n,n-2); % 26+18 bitowe zero
     r2_reg=stal_przec2(0,k+n,n-2); % 26+18 bitowe zero
@@ -80,7 +80,7 @@ filter_sig=round(filter_sig);
         a=a_prev(i)+z5_reg*(x1-z4_reg) ;           %czwarty takt
             a=LB(a,2,n-2);
         r2_reg=stal_przec2(x(i),k+n,n-2)-z3_reg;               
-        x1=x(i)/100000;
+        x1=x(i)/500000;
             x1=LB(x1,k+2,n-2) ;
         y1=r3_reg;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

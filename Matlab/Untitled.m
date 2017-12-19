@@ -43,25 +43,25 @@ k=31;
     for i = 1:length(sig) 
         ll=x(i);
         r3_reg=r1_reg+stal_przec2(x(i),k+n,n-2); %pierwszy takt
-             r3_reg=LB(r3_reg,k,0)  ;   % ucinamy R3_reg do 24 bitów ca³kowitych
+             r3_reg=LB(r3_reg,24,0)     % ucinamy R3_reg do 24 bitów ca³kowitych
 		z2_reg=r*a;
-            z2_reg=LB(z2_reg,2,n-2) ;      %ustawiamy odpowiedni¹ iloœæ bitów
-		z1_reg=a*u2(x(i),k);
+            z2_reg=LB(z2_reg,2,n-2)       %ustawiamy odpowiedni¹ iloœæ bitów
+		z1_reg=a*u2(x(i),k)
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-		z6_reg=z2_reg*r3_reg	;				%drugi takt
+		z6_reg=z2_reg*r3_reg					%drugi takt
            
-        z3_reg=R2*r3_reg ;
+        z3_reg=R2*r3_reg 
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-        r1_reg = r2_reg+z6_reg - z1_reg ;   	%trzeci takt
-        z4_reg=R3*y1;
-		z5_reg=u*r3_reg;
+        r1_reg = r2_reg+z6_reg - z1_reg  	%trzeci takt
+        z4_reg=R3*y1
+		z5_reg=u*r3_reg
 		a_prev(i)=a;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         a=a_prev(i)+z5_reg*(x1-z4_reg);           %czwarty takt
-            a=LB(a,2,n-2);
-        r2_reg=stal_przec2(x(i),k+n,n-2)-z3_reg   ;            
+            a=LB(a,2,n-2)
+        r2_reg=stal_przec2(x(i),k+n,n-2)-z3_reg               
 
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % y(i)=r3_reg; % tylko do sprawdzania

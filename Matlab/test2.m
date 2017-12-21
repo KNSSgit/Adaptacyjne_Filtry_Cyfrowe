@@ -1,24 +1,24 @@
    clear all
    close all
 %% Specyfikacja czasowa:
-   fs = 360;                  % czestotliwosc probkowania
+   fs = 500;                  % czestotliwosc probkowania
    dt = 1/fs;                   % okres probkowania
-   StopTime = 60;             % czas trwania sygnalu
+   StopTime = 30;             % czas trwania sygnalu
    t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach
-   
+   p=3;
 %% Czysty sinus:
-   fc = 60;                     % czestotliwosc sinusa
-   sinus = 800000.*cos(2*pi*fc*t);
+   fc = 70;                     % czestotliwosc sinusa
+   sinus = 500000.*cos(2*pi*fc*t);
 Size_1=24;  
-Size_2=31;
+Size_2=50;
 %% Ustawienia filtracji
-    fin = 70;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    fin = 40;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
     w = 2*pi*fin/fs;
  
-    a = stal_przec(2*cos(w),Size_2,Size_2-2) 
+    a = stal_przec(2*cos(w),Size_2,Size_2-p) 
     a_test = a;
-    u = stal_przec(0.000000001,Size_2,Size_2-2)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
-    r = stal_przec(0.999,Size_1,Size_1-2)                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    u = stal_przec(0.00000001,Size_2,Size_2-p)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    r = stal_przec(0.999,Size_1,Size_1-p)                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
     R4=1/1000000;
 %% Znieksztalcony EKG1
 
@@ -31,14 +31,14 @@ Size_2=31;
    x=sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
 
 
-    x1 = stal_przec(0,Size_2,Size_2-2);                      % 24.0
-    y1 = stal_przec(0,Size_2,Size_2-2);                      % 24.0
+    x1 = stal_przec(0,Size_2,Size_2-p);                      % 24.0
+    y1 = stal_przec(0,Size_2,Size_2-p);                      % 24.0
     
-    R2=stal_przec(r^2,Size_2,Size_2-2);              % 2.29  r^2
-    R3=stal_przec(r/1000000,Size_2,Size_2-2);         % 2.29
+    R2=stal_przec(r^2,Size_2,Size_2-p);              % 2.29  r^2
+    R3=stal_przec(r/1000000,Size_2,Size_2-p);         % 2.29
    
     r1_reg=stal_przec(0,Size_1,0) ;                   % 24.0
-    r2_reg=stal_przec2(0,Size_1+Size_2,Size_2-2);     % 26.29 mo¿e 27.29
+    r2_reg=stal_przec2(0,Size_1+Size_2,Size_2-p);     % 26.29 mo¿e 27.29
     
     for i = 1:length(sig) 
         x_test=x(i)  ;                                % zmienna tylko do testów
@@ -46,7 +46,7 @@ Size_2=31;
         r3_reg=r1_reg+stal_przec(x(i),Size_1,0);      % 25.0 ale to ucinamy 
              r3_reg=stal_przec(r3_reg,Size_1,0);           % ucinamy R3_reg do 24 bitów ca³kowitych
 		z2_reg=r*a    ;                               % 26.29
-            z2_reg=stal_przec(z2_reg,Size_2,Size_2-2);% 2.29
+            z2_reg=stal_przec(z2_reg,Size_2,Size_2-p);% 2.29
 		z1_reg=a*stal_przec(x(i),Size_1,0);
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		%drugi takt
@@ -59,25 +59,25 @@ Size_2=31;
             r1_reg=stal_przec(r1_reg,Size_1,0);        % 24.0
         %z4_reg=R3*y1
 		z5_reg=u*r3_reg   ;                            % 26.29
-            z5_reg=stal_przec(z5_reg,Size_2,Size_2-2); % 2.29
+            z5_reg=stal_przec(z5_reg,Size_2,Size_2-p); % 2.29
         z7_reg=x1-y1 ; % 2.29
-            z7_reg=stal_przec(z7_reg,Size_2,Size_2-2);
+            z7_reg=stal_przec(z7_reg,Size_2,Size_2-p);
 		a_prev(i)=a;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %czwarty takt
-        r2_reg=stal_przec(x(i),Size_2+Size_1,Size_2-2)-z3_reg ;
+        r2_reg=stal_przec(x(i),Size_2+Size_1,Size_2-p)-z3_reg ;
         z8_reg=z5_reg*z7_reg;
-            z8_reg=stal_przec(z8_reg,Size_2,Size_2-2);
+            z8_reg=stal_przec(z8_reg,Size_2,Size_2-p);
            
         x1=x(i)*R4;
-            x1=stal_przec(x1,Size_2,Size_2-2) ;
+            x1=stal_przec(x1,Size_2,Size_2-p) ;
         y1=r3_reg*R3;
-            y1=stal_przec(y1,Size_2,Size_2-2) ;
+            y1=stal_przec(y1,Size_2,Size_2-p) ;
 
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % pi¹ty takt
         a=a_prev(i)+z8_reg  ;
-            a=stal_przec(a,Size_2,Size_2-2);
+            a=stal_przec(a,Size_2,Size_2-p);
        % y(i)=r3_reg; % tylko do sprawdzania
         aa(i)=a;
         wy(i)=r3_reg;

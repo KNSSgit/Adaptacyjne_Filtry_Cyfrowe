@@ -22,10 +22,10 @@ module filtr_a
     reg signed [COEF_SIZE+DATA_SIZE-2-1:0] z1_reg, z1_next; 
   //  reg signed [COEF_SIZE-1:0]             z2_reg, z2_next;
     reg signed [COEF_SIZE+DATA_SIZE-2-1:0] z3_reg, z3_next;    // rejestry przechowuj¹ce 
-    reg signed [COEF_SIZE-1:0]   z4_reg, z4_next;    // rejestry przechowuj¹ce 
+    reg signed [COEF_SIZE+COEF_SIZE-1:0]   z4_reg, z4_next;    // rejestry przechowuj¹ce 
     reg signed [COEF_SIZE-1:0]   z5_reg, z5_next;    // rejestry przechowuj¹ce 
    // reg signed [COEF_SIZE+DATA_SIZE-2-1:0] z6_reg, z6_next;    // rejestry przechowuj¹ce 
-    reg signed [DATA_SIZE-1:0] x1_next, x1_reg;                // wyskalowane opóŸnione wejœcie
+    reg signed [DATA_SIZE+COEF_SIZE-1:0] x1_next, x1_reg;                // wyskalowane opóŸnione wejœcie
     reg signed [DATA_SIZE-1:0] y1_next, y1_reg;  
     reg signed [COEF_SIZE-1:0] a_next, a_reg;
     reg signed [COEF_SIZE-1:0] a_prev_next, a_prev_reg;
@@ -151,7 +151,7 @@ module filtr_a
                r1_next = (out_mult1 + r2_reg - z1_reg)>>>(COEF_SIZE-2);
                z3_next = out_mult2;
                mult1_coef1 = y1_reg;                                    // wrzucamy danie do mno??arek
-               mult1_coef2 = R;                                    //
+               mult1_coef2 = R3;                                    //
                mult2_coef1 = U;                                    //
                mult2_coef2 = r3_reg;                                //           
             end // (S3)
@@ -159,7 +159,7 @@ module filtr_a
 			   r2_next = data_in_ext2-z3_reg;	
 			   z4_next = out_mult1;                               // to jest do adaptacji narazie nie wa?ne 
                z5_next = out_mult2;
-               a_next  = (a_prev_reg+z5_reg*(x1_reg-z4_reg));
+               a_next  = a_prev_reg+(z5_reg*((x1_reg-z4_reg)))>>(46);
                state_next = IDLE;
                y1_next = r3_reg;
                x1_next = data_in_ext*25'd84;

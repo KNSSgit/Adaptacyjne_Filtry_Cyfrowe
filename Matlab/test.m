@@ -1,34 +1,53 @@
-   clear all
-   close all
-%% Specyfikacja czasowa:
-   fs = 360;                  % czestotliwosc probkowania
-   dt = 1/fs;                   % okres probkowania
-   StopTime = 60;             % czas trwania sygnalu
-   t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach
-   
-%% Czysty sinus:
-   fc = 60;                     % czestotliwosc sinusa
-   sinus = 800000.*cos(2*pi*fc*t);
+clear all
+close all
+
+
+fs = 360;               %czestotliwosc probkowania
+time = 50;              %czas dzialania                                    !!!!!!!!!!czas dzialania
 Size_1=24;  
-Size_2=31;
+Size_2=32;
+%% Wczytanie EKG
+    fid = fopen('100.dat','r');
+    f = fread(fid,2*360*time,'ubit12');
+    Orig_Sig = f(1:2:length(f));
+    
+%% Generacja zaklocenia:
+   dt = 1/fs;                       % okres probkowania
+   t = (0:dt:time-dt)';             % w sekundach
+        
+   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   noise = 5.*cos(2*pi*freq*t);        % zaklocenie
+   N = length(noise);
 %% Ustawienia filtracji
-    fin = 70;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    fin = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
     w = 2*pi*fin/fs;
  
     a = stal_przec(2*cos(w),Size_2,Size_2-2) 
     a_test = a;
-    u = stal_przec(0.000000001,Size_2,Size_2-2)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
-    r = stal_przec(0.999,Size_1,Size_1-2)                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    u = stal_przec(0.00000001,Size_2,Size_2-2)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    r = stal_przec(0.98,Size_1,Size_1-2)                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
     R4=1/1000000;
-%% Znieksztalcony EKG1
-
-    sig = sinus;
+%% Znieksztalcony EKG
+    signal = Orig_Sig + noise-900;
+    sig = signal*30000;
     sig=round(sig);
 
 
+%% Pierwsza filtracja
 
+rzad = 4;
+    fc1 = 45;
+    fc2 = 65;
+[b1,m1] = ellip(rzad,1,100,[2*fc1/fs, 2*fc2/fs],'bandpass');
+freqz(b1,m1)
+
+filter_sig = filter(b1,m1,sig);
+filter_sig=round(filter_sig);
+%abc = filter(b1,m1,sig);
+%figure()
+%semilogy(abs(fftshift(fft(abc))))
 %% Adaptowanie filtru
-   x=sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
+   x=filter_sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
 
 
     x1 = stal_przec(0,Size_2,Size_2-2);                      % 24.0
@@ -90,6 +109,22 @@ Size_2=31;
  a_test=double(a_test)  ;
 
 
+
+%% Filtracja adaptacyjna
+
+    x = sig;
+    x1 = 0;
+    x2 = 0;
+    y1 = 0;
+    y2 = 0;
+    for i = 1:N 
+        y(i) = x(i)-a*x1+x2+a*r*y1-r*r*y2;
+        y2 = y1; 
+        y1 = y(i);
+        x2 = x1;
+        x1 = x(i);
+    end
+
     
 
 %% Wyswietlanie wykresow
@@ -111,8 +146,17 @@ Size_2=31;
     legend('Przed adaptacja', 'Po adaptacji');
       
     figure();
-    plot(aa);
+    plot(t,sig,'-b',t,y,'-r');
+    title('Sygnal');
+    legend('Przed filtracja', 'Po filtracji');
+    
+    
+    n = (-((N/2)-1) : N/2);
+    figure();
+    semilogy(n * fs/N,abs(fftshift(fft(sig))),'-b',n * fs/N,abs(fftshift(fft(y))),'-r');
+    title('Widmo');
+    legend('Przed filtracja', 'Po filtracji');
 
-
-
+    figure
+    plot(aa)
 

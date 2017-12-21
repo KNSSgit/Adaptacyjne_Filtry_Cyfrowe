@@ -8,8 +8,8 @@ module filtr_a
       parameter signed R2 = 25'b0,          // tu dajesz r^2
       parameter signed R3 = 25'b0,          // tu bêdzie wyskalowanie r narazie nie wa¿ne
       parameter signed U = 25'b0)           // u 
-    ( input signed [DATA_SIZE-2:0] data_in,        // dane wchodz¹ 24 bitowe ale dodajemy do nich 1 bit by wykozystac 2 mnozarki
-      output signed [DATA_SIZE-2:0] data_out,      // wychodz¹ dane 24 bit
+    ( input signed [24:0] data_in,        // dane wchodz¹ 24 bitowe ale dodajemy do nich 1 bit by wykozystac 2 mnozarki
+      output signed [24:0] data_out,      // wychodz¹ dane 24 bit
       input sample_trig,
       output reg filter_done,
       input clk,
@@ -151,7 +151,7 @@ module filtr_a
          endcase
                 end       
                 
-    assign data_in_ext = {data_in[DATA_SIZE-2], data_in};
+    assign data_in_ext = {{8{data_in[23]}}, data_in};
     assign data_in_ext2=data_in_ext<<(COEF_SIZE-2);
     assign data_out = r3_reg;
 endmodule

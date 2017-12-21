@@ -3,12 +3,12 @@
 %% Specyfikacja czasowa:
    fs = 360;                  % czestotliwosc probkowania
    dt = 1/fs;                   % okres probkowania
-   StopTime = 60;             % czas trwania sygnalu
+   StopTime = 20;             % czas trwania sygnalu
    t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach
    
 %% Czysty sinus:
    fc = 60;                     % czestotliwosc sinusa
-   sinus = 800000.*cos(2*pi*fc*t);
+   sinus = 8000000.*cos(2*pi*fc*t);
 Size_1=24;  
 Size_2=31;
 %% Ustawienia filtracji
@@ -17,9 +17,9 @@ Size_2=31;
  
     a = stal_przec(2*cos(w),Size_2,Size_2-2) 
     a_test = a;
-    u = stal_przec(0.000000001,Size_2,Size_2-2)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    u = stal_przec(0.0000000001,Size_2,Size_2-2)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
     r = stal_przec(0.999,Size_1,Size_1-2)                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
-    R4=1/1000000;
+    R4=1/10000000;
 %% Znieksztalcony EKG1
 
     sig = sinus;
@@ -35,7 +35,7 @@ Size_2=31;
     y1 = stal_przec(0,Size_2,Size_2-2);                      % 24.0
     
     R2=stal_przec(r^2,Size_2,Size_2-2);              % 2.29  r^2
-    R3=stal_przec(r/1000000,Size_2,Size_2-2);         % 2.29
+    R3=stal_przec(r/10000000,Size_2,Size_2-2);         % 2.29
    
     r1_reg=stal_przec(0,Size_1,0) ;                   % 24.0
     r2_reg=stal_przec2(0,Size_1+Size_2,Size_2-2);     % 26.29 mo¿e 27.29

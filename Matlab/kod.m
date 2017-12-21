@@ -2,7 +2,7 @@ clear all
 close all
 fs=2000;   %czestotliwosc probkowania
 fc1=250;   %czestotliwosc odciecia pierwszego filtru
-fsin=200;  %czestotliwosc sygnalu do wyciecia
+fsin=500;  %czestotliwosc sygnalu do wyciecia
 rzad=6;
 [b1,a1]=butter(rzad,2*fc1/fs);
 
@@ -30,9 +30,8 @@ title('Wejsciowy sygnal');
 y1=zeros(length(t),1); % allocate output array
 d=zeros(3,1); % clear delay line
 
-
+for q=1:3
     for n=1:length(t)
-        for q=1:3
         if (n<50)
                 y1(n)=sos1(q,1)*sygnal(n)+d(1);
                 d(1)=sos1(q,2)*sygnal(n)-sos1(q,5)*y1(n)+d(2);
@@ -52,16 +51,14 @@ title('Wyjscie z dwoch filtrow');
 
 y2=zeros(length(t),1); % nowy wektor wyjsciowy
 d=zeros(3,1); % wyczyszczenie rejestrow
-    for n=1:length(t)
-        for q=1:3
+for q=1:3    
+    for n=1:length(t)    
                 y2(n)=sos1(q,1)*sygnal(n)+d(1);
                 d(1)=sos1(q,2)*sygnal(n)-sos1(q,5)*y2(n)+d(2);
                 d(2)=sos1(q,3)*sygnal(n)-sos1(q,6)*y2(n);
                 y2(n)=y2(n)*g2;
-      
     end
 end
-y2=y2.*g1
 figure()
 plot(y2)
 title('Wyjscie z jednego filtra');

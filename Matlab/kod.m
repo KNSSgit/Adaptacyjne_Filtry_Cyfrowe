@@ -1,31 +1,68 @@
 clear all
 close all
-fs=6000;
-fc=400;
-rzad=2;
-[b,a]=cheby2(rzad,80,2*fc/fs);
+fs=2000;   %czestotliwosc probkowania
+fc1=250;   %czestotliwosc odciecia pierwszego filtru
+fsin=200;  %czestotliwosc sygnalu do wyciecia
+rzad=6;
+[b1,a1]=butter(rzad,2*fc1/fs);
 
-liczba_bit=20;
-figure(2)
-freqz(b,a);
-[sos,g]=tf2sos(b,a);
-g_prim=g^(1/3);
+figure()
+freqz(b1,a1);
+[sos1,g1] = tf2sos(b1,a1);
+g2=g1^(1/3);
+title('Pierwszy filtr');
 
-N=1000; % 100 test samples
-%x=randn(N,1); % generate random samples
-x=ones(1,N)*100;
+% drugi filtr od 150
+fc2=150;  %czestotliwosc odciecia pierwszego filtru
+[b2,a2]=butter(rzad,2*fc2/fs);
+[sos2,g3] = tf2sos(b2,a2);
+g4=g3^(1/3);
+figure()
+freqz(b2,a2);
+title('Drugi filtr');
 
-y=zeros(N,1); % allocate output array
+t=[0:1/fs:0.1];
+sygnal=sin(2*pi*fsin*t);
+figure()
+
+plot(sygnal)
+title('Wejsciowy sygnal');
+y1=zeros(length(t),1); % allocate output array
 d=zeros(3,1); % clear delay line
 
 
-for n=1:N                           % tu se filtrujesz mo¿esz zmieniæ tak ¿eby by³ 6 stopnia ten filtr
- y(n)=b(1)*x(n)+d(1);
- d(1)=b(2)*x(n)-a(2)*y(n)+d(2);
- d(2)=b(3)*x(n)-a(3)*y(n);
- 
+    for n=1:length(t)
+        for q=1:3
+        if (n<50)
+                y1(n)=sos1(q,1)*sygnal(n)+d(1);
+                d(1)=sos1(q,2)*sygnal(n)-sos1(q,5)*y1(n)+d(2);
+                d(2)=sos1(q,3)*sygnal(n)-sos1(q,6)*y1(n);
+                y1(n)=y1(n)*g2;
+        else
+                y1(n)=sos2(q,1)*sygnal(n)+d(1);
+                d(1)=sos2(q,2)*sygnal(n)-sos2(q,5)*y1(n)+d(2);
+                d(2)=sos2(q,3)*sygnal(n)-sos2(q,6)*y1(n);
+                y1(n)=y1(n)*g4;
+        end
+    end
 end
+figure()
+plot(y1)
+title('Wyjscie z dwoch filtrow');
 
-figure(1)
+y2=zeros(length(t),1); % nowy wektor wyjsciowy
+d=zeros(3,1); % wyczyszczenie rejestrow
+    for n=1:length(t)
+        for q=1:3
+                y2(n)=sos1(q,1)*sygnal(n)+d(1);
+                d(1)=sos1(q,2)*sygnal(n)-sos1(q,5)*y2(n)+d(2);
+                d(2)=sos1(q,3)*sygnal(n)-sos1(q,6)*y2(n);
+                y2(n)=y2(n)*g2;
+      
+    end
+end
+y2=y2.*g1
+figure()
+plot(y2)
+title('Wyjscie z jednego filtra');
 
-plot(1:N,floor(y))

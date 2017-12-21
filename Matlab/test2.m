@@ -1,25 +1,25 @@
    clear all
    close all
 %% Specyfikacja czasowa:
-   fs = 500;                  % czestotliwosc probkowania
+   fs = 2000;                  % czestotliwosc probkowania 
    dt = 1/fs;                   % okres probkowania
-   StopTime = 30;             % czas trwania sygnalu
+   StopTime = 40;             % czas trwania sygnalu
    t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach
-   p=3;
+   p=2;
 %% Czysty sinus:
-   fc = 70;                     % czestotliwosc sinusa
-   sinus = 500000.*cos(2*pi*fc*t);
+   fc = 60;                     % czestotliwosc sinusa
+   sinus = 8000000.*cos(2*pi*fc*t);
 Size_1=24;  
 Size_2=50;
 %% Ustawienia filtracji
-    fin = 40;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    fin = 50;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
     w = 2*pi*fin/fs;
  
     a = stal_przec(2*cos(w),Size_2,Size_2-p) 
     a_test = a;
-    u = stal_przec(0.00000001,Size_2,Size_2-p)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
-    r = stal_przec(0.999,Size_1,Size_1-p)                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
-    R4=1/1000000;
+    u = stal_przec(10e-12,Size_2,Size_2-p)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    r = stal_przec(0.995,Size_1,Size_1-p)                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    R4=10e-8;
 %% Znieksztalcony EKG1
 
     sig = sinus;
@@ -35,7 +35,7 @@ Size_2=50;
     y1 = stal_przec(0,Size_2,Size_2-p);                      % 24.0
     
     R2=stal_przec(r^2,Size_2,Size_2-p);              % 2.29  r^2
-    R3=stal_przec(r/1000000,Size_2,Size_2-p);         % 2.29
+    R3=stal_przec(r*R4,Size_2,Size_2-p);         % 2.29
    
     r1_reg=stal_przec(0,Size_1,0) ;                   % 24.0
     r2_reg=stal_przec2(0,Size_1+Size_2,Size_2-p);     % 26.29 mo¿e 27.29

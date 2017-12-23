@@ -1,13 +1,13 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 //////////////////////////////////////////////////////////////////////////////////
 
 
 
 module filtr_top#(
-    parameter COEF_SIZE = 25, 
-    parameter DATA_SIZE = 25)(
-input [DATA_SIZE-2:0] data_in,
-output [DATA_SIZE-2:0] data_out,
+    parameter COEF_SIZE = 35, 
+    parameter DATA_SIZE = 24)(
+input [DATA_SIZE-1:0] data_in,
+output [DATA_SIZE-1:0] data_out,
 input  reset,clk,
 input  sample,
 output filter_done);
@@ -16,11 +16,12 @@ output filter_done);
 filtr_a
   #(.DATA_SIZE(DATA_SIZE),
     .COEF_SIZE(COEF_SIZE),
-    .A(25'd16570661),
-    .R(25'd8380219),
-    .R2(25'd8371839),
-    .R3(25'd84),
-    .U(25'd1))
+    .A(35'd17044400784),
+    .R(24'd4185915),
+    .R2(35'd8555609213),
+    .R3(35'd86),
+    .R4(35'd86),
+    .U (35'd9))
      notch(
 .data_in(data_in),
 .reset(reset),

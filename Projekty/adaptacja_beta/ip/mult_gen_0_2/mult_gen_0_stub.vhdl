@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
--- Date        : Thu Dec 14 20:59:16 2017
+-- Date        : Sat Dec 23 15:42:12 2017
 -- Host        : DESKTOP-A13IS9B running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
---               c:/KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Filtr/Filtry.srcs/sources_1/ip/mult_gen_0/mult_gen_0_stub.vhdl
+--               c:/KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta/Adaptacja_beta.srcs/sources_1/ip/mult_gen_0_2/mult_gen_0_stub.vhdl
 -- Design      : mult_gen_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a200tsbg484-1
@@ -15,9 +15,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity mult_gen_0 is
   Port ( 
     CLK : in STD_LOGIC;
-    A : in STD_LOGIC_VECTOR ( 24 downto 0 );
-    B : in STD_LOGIC_VECTOR ( 24 downto 0 );
-    P : out STD_LOGIC_VECTOR ( 49 downto 0 )
+    A : in STD_LOGIC_VECTOR ( 23 downto 0 );
+    B : in STD_LOGIC_VECTOR ( 34 downto 0 );
+    P : out STD_LOGIC_VECTOR ( 58 downto 0 )
   );
 
 end mult_gen_0;
@@ -26,7 +26,7 @@ architecture stub of mult_gen_0 is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
-attribute black_box_pad_pin of stub : architecture is "CLK,A[24:0],B[24:0],P[49:0]";
+attribute black_box_pad_pin of stub : architecture is "CLK,A[23:0],B[34:0],P[58:0]";
 attribute x_core_info : string;
 attribute x_core_info of stub : architecture is "mult_gen_v12_0_13,Vivado 2017.3";
 begin

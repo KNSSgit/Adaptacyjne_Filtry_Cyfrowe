@@ -8,7 +8,7 @@
    
 %% Czysty sinus:
    fc = 50;                     % czestotliwosc sinusa
-   sinus = 7000000.*cos(2*pi*fc*t);
+   sinus = 6000000.*cos(2*pi*fc*t);
    
 %% Zaburzony sinus
    fz = 50;                    % czestotliwoœæ sygnalu

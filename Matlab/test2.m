@@ -3,7 +3,7 @@
 %% Specyfikacja czasowa:
    fs = 2000;                  % czestotliwosc probkowania 
    dt = 1/fs;                   % okres probkowania
-   StopTime = 5;             % czas trwania sygnalu
+   StopTime = 20;             % czas trwania sygnalu
    t = (0:dt:StopTime-dt)';     % wekor czasu w sekundach
    p=2;
 %% Czysty sinus:
@@ -20,7 +20,7 @@ Size_2=35;
     a_test = a;
     u = stal_przec(10e-10,Size_2,Size_2-p)                 %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
     r = stal_przec(0.998,Size_1,Size_1-p);                         %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
-    R4=stal_przec(10e-9,Size_2,Size_2-p); 
+    R4=stal_przec(10e-10,Size_2,Size_2-p); 
 %% Znieksztalcony EKG1
 
     sig = sinus+sinus2;
@@ -134,7 +134,7 @@ Size_2=35;
     legend('Przed adaptacja', 'Po adaptacji');
       
     figure();
-    plot(aa);
+    plot(t,aa);
 
 
 

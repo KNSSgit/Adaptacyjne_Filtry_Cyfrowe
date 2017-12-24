@@ -193,8 +193,7 @@ if {[string equal [get_filesets -quiet sim_1] ""]} {
 set obj [get_filesets sim_1]
 # Import local files from the original project
 set files [list \
- "[file normalize "$origin_dir/../../../../../KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta/Adaptacja_beta.srcs/sim_1/imports/src/filtr_a_tb.v"]"\
- "[file normalize "$origin_dir/../../../../../KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta/filtr_a_tb_behav1.wcfg"]"\
+ "[file normalize "$origin_dir/../src/filtr_a_tb.v"]"
 ]
 set imported_files [import_files -fileset sim_1 $files]
 

@@ -4,10 +4,10 @@
 
 
 module filtr_top#(
-    parameter COEF_SIZE = 31, 
-    parameter DATA_SIZE = 31)(
-input signed [24:0] data_in,
-output signed [24:0] data_out,
+    parameter COEF_SIZE = 25, 
+    parameter DATA_SIZE = 25)(
+input signed [DATA_SIZE-2:0] data_in,
+output signed [DATA_SIZE-2:0] data_out,
 input  reset,clk,
 input  sample,
 output filter_done);
@@ -16,11 +16,11 @@ output filter_done);
 filtr_a
   #(.DATA_SIZE(DATA_SIZE),
     .COEF_SIZE(COEF_SIZE),
-    .A(31'd1054722904),
-    .R(31'd536334041),
-    .R2(31'd535797707),
-    .R3(31'd536),
-    .U(31'd1))
+    .A(25'd16570661),
+    .R(25'd8380219),
+    .R2(25'd8371839),
+    .R3(25'd8388608),
+    .U(25'd8388608))
      notch(
 .data_in(data_in),
 .reset(reset),

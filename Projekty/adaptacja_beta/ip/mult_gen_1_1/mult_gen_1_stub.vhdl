@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
--- Date        : Sat Dec 23 15:42:42 2017
+-- Date        : Wed Dec 27 12:58:48 2017
 -- Host        : DESKTOP-A13IS9B running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub
---               c:/KNSS/Adaptacyjne_Filtry_Cyfrowe/Projekty/Adaptacja_beta/Adaptacja_beta.srcs/sources_1/ip/mult_gen_1_1/mult_gen_1_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top mult_gen_1 -prefix
+--               mult_gen_1_ mult_gen_1_stub.vhdl
 -- Design      : mult_gen_1
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a200tsbg484-1

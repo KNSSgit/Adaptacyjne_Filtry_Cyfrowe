@@ -20,8 +20,8 @@ module filtr_a
     reg signed [DATA_SIZE-1:0]              r1_reg, r1_next;             // 24.0  (24.0)
     reg signed [COEF_SIZE+DATA_SIZE-1+2:0]  r2_reg, r2_next;             // 59.32 (27.29)
     reg signed [DATA_SIZE-1:0]              r3_reg, r3_next;             // 24.0  (24.0)                       
-    reg signed [COEF_SIZE+DATA_SIZE-1:0]   z1_reg, z1_next;              // 58.32 (26.32)
-  //  reg signed [COEF_SIZE-1:0]           z2_reg, z2_next;
+    //reg signed [COEF_SIZE+DATA_SIZE-1:0]   z1_reg, z1_next;              // 58.32 (26.32)
+    reg signed [COEF_SIZE+DATA_SIZE-1:0]   z2_reg, z2_next;
     reg signed [COEF_SIZE+DATA_SIZE-1:0]   z3_reg, z3_next;              // 58.32 (26.32)
   //reg signed [COEF_SIZE+COEF_SIZE-1:0]   z4_reg, z4_next;              // 
    // reg signed [COEF_SIZE-1:0]   z5_reg, z5_next;                        // 34.32 (2.32)
@@ -81,8 +81,8 @@ module filtr_a
              r1_reg <= 0;
              r2_reg <= 0;
              r3_reg <= 0;
-             z1_reg <= 0;
-          //   z2_reg <= 0;
+           //  z1_reg <= 0;
+             z2_reg <= 0;
              z3_reg <= 0;
              ///z4_reg <= 0;
           //   z5_reg <= 0;
@@ -98,8 +98,8 @@ module filtr_a
              r1_reg <= r1_next;
              r2_reg <= r2_next;
              r3_reg <= r3_next;
-             z1_reg <= z1_next;
-         //    z2_reg <= z2_next;
+           //  z1_reg <= z1_next;
+             z2_reg <= z2_next;
              z3_reg <= z3_next;
              //z4_reg <= z4_next;
           //   z5_reg <= z5_next;
@@ -126,8 +126,8 @@ module filtr_a
         r1_next = r1_reg;
         r2_next = r2_reg;
         r3_next = r3_reg;
-        z1_next = z1_reg;
-       // z2_next = z2_reg;
+       // z1_next = z1_reg;
+        z2_next = z2_reg;
         z3_next = z3_reg;
       //  z4_next = z4_reg;
       //  z5_next = z5_reg;
@@ -161,12 +161,13 @@ module filtr_a
                mult1_coef2 = out_mult1>>>(DATA_SIZE-2);                 // out  z6_reg
                mult2_coef1 = r3_reg ;                                   // out  z3_reg
                mult2_coef2 = R2;                                        // out  z3_reg
-               z1_next = out_mult2;
+              // z1_next = out_mult2;
+               z2_next= r2_reg-out_mult2;                               //r2_reg-z1_reg;
             end // (S2)
             S3:begin
                state_next = S4;
                a_prev_next=a_reg;
-               r1_next = (out_mult1 + r2_reg - z1_reg)>>>(COEF_SIZE-2);
+               r1_next = (out_mult1 + z2_reg)>>>(COEF_SIZE-2);
                z3_next = out_mult2;
                mult1_coef1 = r3_reg;                                // out Y1
                mult1_coef2 = R3;                                    // out Y1

@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 //////////////////////////////////////////////////////////////////////////////////
 // Kolo Naukowe Systemow Scalonych
 // 10.2017
@@ -17,7 +17,7 @@ module generator_tb();
     reg reset;
     wire [23:0] data_out;
     
-    gen_ekg_zabrudzony generator_inst(
+    gen_sinus_zabrudzony generator_inst(
         .data_out(data_out),
         .clk(clk),
         .reset(reset)

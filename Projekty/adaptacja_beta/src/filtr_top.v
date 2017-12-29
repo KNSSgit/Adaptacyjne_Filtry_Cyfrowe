@@ -8,6 +8,7 @@ module filtr_top#(
     parameter DATA_SIZE = 24)(
 input [DATA_SIZE-1:0] data_in,
 output [DATA_SIZE-1:0] data_out,
+
 input  reset,clk,
 input  sample,
 output filter_done);
@@ -21,7 +22,7 @@ filtr_a
     .R2(35'd8555609213),
     .R3(35'd9),
     .R4(35'd9),
-    .U (35'd9))
+    .U (35'd86))
      notch(
 .data_in(data_in),
 .reset(reset),
@@ -29,6 +30,7 @@ filtr_a
 .sample_trig(sample),
 .data_out(data_out),
 .filter_done(filter_done)
+
 
 );
 

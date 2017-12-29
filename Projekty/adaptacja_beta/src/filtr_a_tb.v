@@ -7,7 +7,7 @@ module filtr_a_tb
     
     reg [DATA_SIZE-1:0] data_in;
     wire [DATA_SIZE-1:0] data_out;
-
+    wire [7:0] coss;
     reg clk, clk_2khz;
     reg reset;
     reg sample;

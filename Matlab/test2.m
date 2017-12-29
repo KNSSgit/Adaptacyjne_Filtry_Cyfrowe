@@ -13,7 +13,7 @@
 Size_1=24;  
 Size_2=35;
 %% Ustawienia filtracji
-    fin = 40;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    fin = 50;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
     w = 2*pi*fin/fs;
  
     a = stal_przec(2*cos(w),Size_2,Size_2-p); 

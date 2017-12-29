@@ -8,8 +8,8 @@
    p=2;
 %% Czysty sinus:
    fc = 50;                     % czestotliwosc sinusa
-   sinus = 6*10e5.*cos(2*pi*fc*t);
-   sinus2=5*10e5.*sin(2*pi*fc+30*t);
+   sinus = 3*10e4.*cos(2*pi*fc*t);
+   sinus2=0*10e5.*sin(2*pi*fc+30*t);
 Size_1=24;  
 Size_2=31;
 N=length(sinus);
@@ -19,8 +19,8 @@ N=length(sinus);
  
     a = 2*cos(w);
     a_test = a;
-    u = 10e-10  ;            %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
-    r = 0.995 ;                       %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
+    u = 10e-7  ;            %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    r = 0.9975 ;                       %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
     R4=10e-10;
 %% Znieksztalcony EKG1
 
@@ -41,7 +41,7 @@ N=length(sinus);
     a_next = 0;
     for i = 1:N 
         if (i>7000)
-            r=0.998;
+            r=0.9975;
         end
         r3_reg=r1_reg+x(i);                	   %pierwszy takt
 		z2_reg=r*a;

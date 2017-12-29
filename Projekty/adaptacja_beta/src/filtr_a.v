@@ -190,8 +190,8 @@ module filtr_a
             S5:begin
                state_next = IDLE;
               // a_next  = a_prev_reg+(out_mult3)>>>(COEF_SIZE-2);
-                 a_next  = a_prev_reg+out_mult3[67:33];
-              // a_next = a_prev_reg;
+               a_next  = a_prev_reg+out_mult3[67:33];
+               //a_next = a_prev_reg;
                x1_next = out_mult1;                                 // NIEJAWNE PRZYCIÊCIE!!
                y1_next = out_mult2;                                 // NIEJAWNE PRZYCIÊCIE!!
                
@@ -202,4 +202,5 @@ module filtr_a
 
     assign data_in_ext=data_in<<(COEF_SIZE-2);
     assign data_out = r3_reg;
+
 endmodule

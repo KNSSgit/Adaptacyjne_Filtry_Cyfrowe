@@ -1,9 +1,9 @@
 clear all
 close all
 
-fc = 4000;                  %tutaj zmieniac czestotliwosc sinusa(musi byc wielokrotnosc 50Hz
-fs = 48000;                %tutaj zmieniac czestotliwosc probkowania
-amp = 5600000;            %tutaj zmieniac amplitude sinusa
+fc = 50;                  %tutaj zmieniac czestotliwosc sinusa(musi byc wielokrotnosc 50Hz
+fs = 2000;                %tutaj zmieniac czestotliwosc probkowania
+amp = 6000000;            %tutaj zmieniac amplitude sinusa
 dt = 1/fs;
 StopTime = 0.02;
 t = (0:dt:StopTime-dt)';
@@ -19,7 +19,6 @@ licznik = floor(licznik);
 
 file=fopen('src/gen_sinus.v','w');
 
-fprintf(file,'`timescale 1ns/100ps\n\n');
 fprintf(file,'module gen_sinus( \n ');
 fprintf(file,'\t output reg signed [%d:0] data_out,\n',bit_len-1);
 fprintf(file,'\t input clk,\n');
@@ -53,7 +52,7 @@ fprintf(file,'\t\t\t\t begin \n');
 fprintf(file,'\t\t\t\t\t if(counter == 16''d%d) \n',licznik);
 fprintf(file,'\t\t\t\t\t\t begin \n');
 fprintf(file,'\t\t\t\t\t\t\t data_out <= rom[i]; \n');
-fprintf(file,'\t\t\t\t\t\t\t counter <=16''b0; \n');
+fprintf(file,'\t\t\t\t\t\t\t counter <= 16''b0; \n');
 fprintf(file,'\t\t\t\t\t\t\t if(i == %d) i <= 0; \n', probki-1);
 fprintf(file,'\t\t\t\t\t\t\t else i <= i + 1; \n');
 fprintf(file,'\t\t\t\t\t\t end \n');

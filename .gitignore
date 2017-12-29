@@ -47,6 +47,8 @@ clk_wiz_1.vhdl
 clk_wiz_1_board.xdc
 clk_wiz_1_clk_wiz.v
 clk_wiz_1_ooc.xdc
+clk_wiz_1.xci
+clk_wiz_1.xml
 
 *.vh
 

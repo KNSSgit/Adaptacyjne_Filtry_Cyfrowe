@@ -23,6 +23,13 @@ wire reset;
 
  wire [k-1:0] audio_in_2, audio_in_3;
 wire filter_done,filter_done2,filter_done3;
+wire clk1_10;
+
+   clk_w10 clk_10
+    (
+        .clk_in1(clk),
+        .clk_out(clk1_10),
+        .reset(reset));
 
 Audio_Codec_Wrapper audio_codec (
 .L_bus_in(L_bus_in),
@@ -72,7 +79,7 @@ notch_top notch_inst(
 .data_in(wejscie),
 .data_out(wyjscie),
 .sample_trig(sample),
-.clk(clk),
+.clk(clk1_10),
 .reset(reset)
 );
 

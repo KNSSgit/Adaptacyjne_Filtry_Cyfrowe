@@ -14,7 +14,7 @@ Size_1=24;
 Size_2=31;
 N=length(sinus);
 %% Ustawienia filtracji
-    fin = 50;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
+    fin = 45;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa
     w = 2*pi*fin/fs;
  
     a = 2*cos(w);

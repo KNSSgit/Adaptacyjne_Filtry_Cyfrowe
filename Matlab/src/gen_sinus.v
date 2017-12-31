@@ -1,5 +1,3 @@
-`timescale 1ns/100ps
-
 module gen_sinus( 
  	 output reg signed [23:0] data_out,
 	 input clk,
@@ -67,7 +65,7 @@ module gen_sinus(
 					 if(counter == 16'd50000) 
 						 begin 
 							 data_out <= rom[i]; 
-							 counter <=16'b0; 
+							 counter <= 16'b0; 
 							 if(i == 39) i <= 0; 
 							 else i <= i + 1; 
 						 end 

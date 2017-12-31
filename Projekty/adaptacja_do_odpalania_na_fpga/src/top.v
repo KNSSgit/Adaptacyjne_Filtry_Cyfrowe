@@ -24,11 +24,7 @@ wire [k-1:0] audio_in_2, audio_in_3;
 wire filter_done,filter_done2,filter_done3;
 wire clk1_10;
 
-   clk_w10 clk_10
-    (
-        .clk_in1(clk),
-        .clk_out(clk1_10),
-        .reset(reset));
+
   
 
 Audio_Codec_Wrapper audio_codec (
@@ -45,9 +41,8 @@ Audio_Codec_Wrapper audio_codec (
 .scl(scl),
 .sda(sda),
 .clk(clk),
+.clk10(clk1_10),
 .reset_n(reset_n)
-
-
 );
 
 wire [23:0] wejscie;
@@ -69,7 +64,7 @@ always @*
 
 
 
-generator gen_sinus(
+gen_sinus gen(
 .data_out(wejscie),
 .clk(clk),
 .reset(reset)
@@ -90,7 +85,7 @@ reg [15:0] licznik;
 
 always @(posedge clk)
     begin
-        if(licznik == 16'd50000)
+        if(licznik == 16'd5000)
             begin
                 licznik <= 16'b0;
                 sample <= 1;

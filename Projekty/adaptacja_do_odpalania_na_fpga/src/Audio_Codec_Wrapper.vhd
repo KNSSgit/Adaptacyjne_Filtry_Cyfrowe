@@ -20,7 +20,8 @@ entity Audio_Codec_Wrapper is
         L_bus_out : out  std_logic_vector(23 downto 0); -- left channel output from ADC
         R_bus_out : out  std_logic_vector(23 downto 0); -- right channel output from ADC
         scl : inout STD_LOGIC;
-        sda : inout STD_LOGIC);
+        sda : inout STD_LOGIC;
+        clk10  : out std_logic );
 end Audio_Codec_Wrapper;
 
 architecture Behavioral of Audio_Codec_Wrapper is
@@ -48,6 +49,7 @@ architecture Behavioral of Audio_Codec_Wrapper is
         LRCLK_O     : out std_logic; -- channel CLK
         SDATA_O     : out std_logic; -- Output serial data
         SDATA_I     : in  std_logic  -- Input serial data
+        
         );
     end component;   
 
@@ -67,6 +69,7 @@ architecture Behavioral of Audio_Codec_Wrapper is
         clk_in1 : in STD_LOGIC;
         clk_out1 : out STD_LOGIC; -- 12.288MHz ADAU1761 SigmaDSP audio codec master clock
         clk_out2 : out STD_LOGIC; -- 50MHz Audio Codec Serial Communications clock
+        clk_out3 : out STD_LOGIC;
         resetn : in STD_LOGIC);   -- active low reset for Nexys Video
     end component;   
 	 
@@ -80,6 +83,7 @@ architecture Behavioral of Audio_Codec_Wrapper is
     signal R_bus_out_sig : std_logic_vector(23 downto 0);
 	signal L_bus_in_sig : std_logic_vector(23 downto 0);
     signal R_bus_in_sig : std_logic_vector(23 downto 0);
+    signal clk_10 : std_logic;
 
 begin
     --------------------------------------------------------------------------
@@ -119,6 +123,7 @@ begin
             clk_in1 => clk,
             clk_out1 => ac_mclk,        -- 12.288MHz ADAU1761 SigmaDSP audio codec master clock
             clk_out2 => clk_50,         -- 50MHz Audio Codec Serial Communications clock
+            clk_out3 => clk_10,
             resetn => reset_n);          -- active low reset for Nexys Video
 
 	audio_inout: i2s_ctl
@@ -145,6 +150,7 @@ begin
     R_bus_out_sig <= R_bus_in;  -- Add six bits of zero
     L_bus_out <= L_bus_in_sig ; -- remove lower six bits 
     R_bus_out <= R_bus_in_sig ; -- remove lower six bits 
+    clk10 <= clk_10;
     
     
 

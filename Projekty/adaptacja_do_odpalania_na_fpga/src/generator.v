@@ -1,15 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////
-// Kolo Naukowe Systemow Scalonych
-// 10.2017
-// 
-// Modul: gen_sinus
-// Projekt: Adaptacyjne filtry cyfrowe do kondycjonowania sygnalow biomedycznych 
-// Model urzadzenia: Nexys Video Artix 7 (XC7A200T-1SBG484C)
-// 
-// Wersja: 0.1
-//////////////////////////////////////////////////////////////////////////////////
-
-module generator( 
+module gen_sinus( 
  	 output reg signed [23:0] data_out,
 	 input clk,
 	 input reset
@@ -17,9 +6,9 @@ module generator(
 
 	 reg signed [23:0] rom[0:39];
 	 reg [15:0] i;
-	 reg [15:0] counter;//50000 * 40próbek = 2 000 000 ; zegar 100mhz => 50hz
+	 reg [15:0] counter;
 
-	 always @(reset)     // fs = 2kHz; f1 = 50Hz; A1 = 6000000
+	 always @(reset)
 		 begin 
 			 rom[0] = 24'b000000000000000000000000;
 			 rom[1] = 24'b000011100101001001101111;
@@ -76,7 +65,7 @@ module generator(
 					 if(counter == 16'd50000) 
 						 begin 
 							 data_out <= rom[i]; 
-							 counter <=16'b0; 
+							 counter <= 16'b0; 
 							 if(i == 39) i <= 0; 
 							 else i <= i + 1; 
 						 end 

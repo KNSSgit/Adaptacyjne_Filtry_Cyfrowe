@@ -12,9 +12,9 @@ output filter_done);
 filtr_a
   #(.DATA_SIZE(DATA_SIZE),
     .COEF_SIZE(COEF_SIZE),
-    .A(35'd16968356486),
-    .R(24'd4185915),
-    .R2(35'd8555609213),
+    .A(35'd17008476929),
+    .R(24'd4173332),
+    .R2(35'd8504249994),
     .R3(35'd9),
     .R4(35'd9),
     .U (35'd9))

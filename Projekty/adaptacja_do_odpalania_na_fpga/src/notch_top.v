@@ -1,9 +1,8 @@
 module notch_top#(
     parameter COEF_SIZE = 40, 
     parameter DATA_SIZE = 24)(
-input [DATA_SIZE-1:0] data_in,
+input  [DATA_SIZE-1:0] data_in,
 output [DATA_SIZE-1:0] data_out,
-
 input  reset,clk,
 input  sample,
 output filter_done);
@@ -24,9 +23,6 @@ filtr_a
 .clk(clk),
 .sample_trig(sample),
 .data_out(data_out),
-.filter_done(filter_done)
-
-
-);
+.filter_done(filter_done));
 
 endmodule

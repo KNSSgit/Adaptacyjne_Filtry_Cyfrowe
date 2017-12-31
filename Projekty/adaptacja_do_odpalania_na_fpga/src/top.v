@@ -66,7 +66,7 @@ always @*
 
 gen_sinus gen(
 .data_out(wejscie),
-.clk(clk),
+.clk(clk1_10),
 .reset(reset)
 );
 
@@ -83,7 +83,7 @@ notch_top notch_inst(
 reg [15:0] licznik;
 
 
-always @(posedge clk)
+always @(posedge clk1_10)
     begin
         if(licznik == 16'd5000)
             begin
@@ -92,8 +92,10 @@ always @(posedge clk)
             end
         else
             begin
-                licznik <= licznik + 16'd1;
-                sample <= 0;
+               licznik <= licznik + 16'd1;
+               sample <= 0;
+                    
+                
             end
     end
 

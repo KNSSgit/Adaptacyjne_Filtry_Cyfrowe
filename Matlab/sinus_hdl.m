@@ -3,7 +3,7 @@ close all
 
 fc = 50;                  %tutaj zmieniac czestotliwosc sinusa(musi byc wielokrotnosc 50Hz
 fs = 2000;                %tutaj zmieniac czestotliwosc probkowania
-amp = 6000000;            %tutaj zmieniac amplitude sinusa
+amp = 2500000;            %tutaj zmieniac amplitude sinusa
 dt = 1/fs;
 StopTime = 0.02;
 t = (0:dt:StopTime-dt)';

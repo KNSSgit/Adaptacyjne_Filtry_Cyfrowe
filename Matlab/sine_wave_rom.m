@@ -8,11 +8,11 @@
    
 %% Czysty sinus:
    fc = 50;                     % czestotliwosc sinusa
-   sinus = 6000000.*sin(2*pi*fc*t);
+   sinus = 3000000.*sin(2*pi*fc*t);
    
 %% Zaburzony sinus
    fz = 250;                    % czestotliwoœæ sygnalu
-   temp = 1500000.*sin(2*pi*fz*t);
+   temp = 500000.*sin(2*pi*fz*t);
    sinus_zaburzony = sinus + temp;
    
 %% Zapis do pliku

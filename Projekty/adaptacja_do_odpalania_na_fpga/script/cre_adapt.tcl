@@ -124,15 +124,12 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 set obj [get_filesets sources_1]
 set files [list \
  "[file normalize "$origin_dir/../src/audio_init.v"]"\
- "[file normalize "$origin_dir/../src/filter_sos.v"]"\
  "[file normalize "$origin_dir/../src/generator.v"]"\
  "[file normalize "$origin_dir/../src/notch_top.v"]"\
  "[file normalize "$origin_dir/../src/Audio_Codec_Wrapper.vhd"]"\
  "[file normalize "$origin_dir/../src/TWICtl.vhd"]"\
  "[file normalize "$origin_dir/../src/i2s_ctl.vhd"]"\
  "[file normalize "$origin_dir/../src/top.v"]"\
- "[file normalize "$origin_dir/../src/generator_tb.v"]"\
- "[file normalize "$origin_dir/../src/notch_top_tb.v"]"\
 ]
 add_files -norecurse -fileset $obj $files
 

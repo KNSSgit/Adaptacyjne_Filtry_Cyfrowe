@@ -350,7 +350,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Jan 01 10:21:05 UTC 2018</spirit:value>
+            <spirit:value>Mon Jan 01 10:41:45 UTC 2018</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>

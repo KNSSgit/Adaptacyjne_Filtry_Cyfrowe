@@ -49,5 +49,28 @@ clk_wiz_1_clk_wiz.v
 clk_wiz_1_ooc.xdc
 clk_wiz_1.xml
 
+mult_gen_0_sim_netlist.v
+mult_gen_0_sim_netlist.vhdl
+mult_gen_0_stub.v
+mult_gen_0_stub.vhdl
+mult_gen_0.v
+mult_gen_0.xdc
+mult_gen_0.vhdl
+mult_gen_0_board.xdc
+mult_gen_0_clk_wiz.v
+mult_gen_0_ooc.xdc
+mult_gen_0.xml
+
+mult_gen_1_sim_netlist.v
+mult_gen_1_sim_netlist.vhdl
+mult_gen_1_stub.v
+mult_gen_1_stub.vhdl
+mult_gen_1.v
+mult_gen_1.xdc
+mult_gen_1.vhdl
+mult_gen_1_board.xdc
+mult_gen_1_clk_wiz.v
+mult_gen_1_ooc.xdc
+mult_gen_1.xml
 *.vh
 

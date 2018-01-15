@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2018 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -55,9 +55,9 @@
 COMPONENT mult_gen_1
   PORT (
     CLK : IN STD_LOGIC;
-    A : IN STD_LOGIC_VECTOR(39 DOWNTO 0);
-    B : IN STD_LOGIC_VECTOR(39 DOWNTO 0);
-    P : OUT STD_LOGIC_VECTOR(79 DOWNTO 0)
+    A : IN STD_LOGIC_VECTOR(34 DOWNTO 0);
+    B : IN STD_LOGIC_VECTOR(34 DOWNTO 0);
+    P : OUT STD_LOGIC_VECTOR(69 DOWNTO 0)
   );
 END COMPONENT;
 -- COMP_TAG_END ------ End COMPONENT Declaration ------------

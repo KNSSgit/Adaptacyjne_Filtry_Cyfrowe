@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2018 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -59,9 +59,9 @@ USE mult_gen_v12_0_13.mult_gen_v12_0_13;
 ENTITY mult_gen_1 IS
   PORT (
     CLK : IN STD_LOGIC;
-    A : IN STD_LOGIC_VECTOR(39 DOWNTO 0);
-    B : IN STD_LOGIC_VECTOR(39 DOWNTO 0);
-    P : OUT STD_LOGIC_VECTOR(79 DOWNTO 0)
+    A : IN STD_LOGIC_VECTOR(34 DOWNTO 0);
+    B : IN STD_LOGIC_VECTOR(34 DOWNTO 0);
+    P : OUT STD_LOGIC_VECTOR(69 DOWNTO 0)
   );
 END mult_gen_1;
 
@@ -93,11 +93,11 @@ ARCHITECTURE mult_gen_1_arch OF mult_gen_1 IS
     );
     PORT (
       CLK : IN STD_LOGIC;
-      A : IN STD_LOGIC_VECTOR(39 DOWNTO 0);
-      B : IN STD_LOGIC_VECTOR(39 DOWNTO 0);
+      A : IN STD_LOGIC_VECTOR(34 DOWNTO 0);
+      B : IN STD_LOGIC_VECTOR(34 DOWNTO 0);
       CE : IN STD_LOGIC;
       SCLR : IN STD_LOGIC;
-      P : OUT STD_LOGIC_VECTOR(79 DOWNTO 0)
+      P : OUT STD_LOGIC_VECTOR(69 DOWNTO 0)
     );
   END COMPONENT mult_gen_v12_0_13;
   ATTRIBUTE X_INTERFACE_INFO : STRING;
@@ -120,11 +120,11 @@ BEGIN
       C_HAS_CE => 0,
       C_HAS_SCLR => 0,
       C_LATENCY => 1,
-      C_A_WIDTH => 40,
+      C_A_WIDTH => 35,
       C_A_TYPE => 0,
-      C_B_WIDTH => 40,
+      C_B_WIDTH => 35,
       C_B_TYPE => 0,
-      C_OUT_HIGH => 79,
+      C_OUT_HIGH => 69,
       C_OUT_LOW => 0,
       C_MULT_TYPE => 1,
       C_CE_OVERRIDES_SCLR => 0,

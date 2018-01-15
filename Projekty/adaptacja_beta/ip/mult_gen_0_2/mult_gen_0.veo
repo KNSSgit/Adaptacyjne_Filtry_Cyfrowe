@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2018 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -57,8 +57,8 @@
 mult_gen_0 your_instance_name (
   .CLK(CLK),  // input wire CLK
   .A(A),      // input wire [23 : 0] A
-  .B(B),      // input wire [39 : 0] B
-  .P(P)      // output wire [63 : 0] P
+  .B(B),      // input wire [34 : 0] B
+  .P(P)      // output wire [58 : 0] P
 );
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 

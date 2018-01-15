@@ -17,7 +17,7 @@ module gen_sinus(
 
 	 reg signed [23:0] rom[0:39];
 	 reg [15:0] i;
-	 reg [15:0] counter;//50000 * 40próbek = 2 000 000 ; zegar 100mhz => 50hz
+	 reg [15:0] counter;//5000 * 40próbek = 200 000 ; zegar 10mhz => 50hz
 
 	 always @(reset)     // fs = 2kHz; f1 = 50Hz; A1 = 6000000
 		 begin 
@@ -73,7 +73,7 @@ module gen_sinus(
 				 end 
 			 else 
 				 begin 
-					 if(counter == 16'd50000) 
+					 if(counter == 16'd5000) 
 						 begin 
 							 data_out <= rom[i]; 
 							 counter <=16'b0; 

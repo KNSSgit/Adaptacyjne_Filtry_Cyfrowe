@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 
 module generator_top
@@ -39,9 +39,9 @@ Audio_Codec_Wrapper audio_codec (
 );
 
 wire [23:0] sinus_out;
-wire [23:0] sinus_zabrudzony_out;
-wire [23:0] ekg_out;
-wire [23:0] ekg_zabrudzony_out;
+wire [23:0] ekg_50_out;
+wire [23:0] ekg_55_out;
+wire [23:0] ekg_60_out;
 
 reg [23:0] wyjscie_do_dac;
 
@@ -52,20 +52,20 @@ gen_sinus gen_sinus_inst(
 .reset(reset)
 );
 
-gen_sinus_zabrudzony gen_sinus_zabrudzony_inst(
-.data_out(sinus_zabrudzony_out),
+gen_ekg_50 gen_ekg_50_inst(
+.data_out(ekg_50_out),
 .clk(clk),
 .reset(reset)
 );
 
-gen_ekg gen_ekg_inst(
-.data_out(ekg_out),
+gen_ekg_55 gen_ekg_55_inst(
+.data_out(ekg_55_out),
 .clk(clk),
 .reset(reset)
 );
 
-gen_ekg_zabrudzony gen_ekg_zabrudzony_inst(
-.data_out(ekg_zabrudzony_out),
+gen_ekg_60 gen_ekg_60_inst(
+.data_out(ekg_60_out),
 .clk(clk),
 .reset(reset)
 );
@@ -75,9 +75,9 @@ always @(posedge clk)
     begin
         case(sw)
             4'b0001 : wyjscie_do_dac <= sinus_out;
-            4'b0010 : wyjscie_do_dac <= sinus_zabrudzony_out;
-            4'b0100 : wyjscie_do_dac <= ekg_out;
-            4'b1000 : wyjscie_do_dac <= ekg_zabrudzony_out;
+            4'b0010 : wyjscie_do_dac <= ekg_50_out;
+            4'b0100 : wyjscie_do_dac <= ekg_55_out;
+            4'b1000 : wyjscie_do_dac <= ekg_60_out;
             default : wyjscie_do_dac <= 24'b0;
         endcase
     end

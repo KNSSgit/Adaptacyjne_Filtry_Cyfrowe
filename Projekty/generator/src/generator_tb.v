@@ -17,7 +17,7 @@ module generator_tb();
     reg reset;
     wire [23:0] data_out;
     
-    gen_sinus_zabrudzony generator_inst(
+    gen_ekg_60 generator_inst(
         .data_out(data_out),
         .clk(clk),
         .reset(reset)
@@ -30,6 +30,6 @@ module generator_tb();
             #100 reset = 0;
         end
         
-    always #5 clk = !clk;
+    always #50 clk = !clk;
     
 endmodule

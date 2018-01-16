@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module top
-#(parameter n=35,k=24)(
+#(parameter COEF_SIZE=40,DATA_SIZE=24)(
 input  clk,
 input  reset_n,
 input  ac_adc_sdata,
@@ -13,18 +13,21 @@ output ac_dac_sdata,
 output ac_bclk,
 output ac_lrclk
 );
-reg[23:0] L_bus_in, R_bus_in;
-wire[23:0] L_bus_out,R_bus_out;
+reg[DATA_SIZE-1:0] L_bus_in, R_bus_in;
+wire[DATA_SIZE-1:0] L_bus_out,R_bus_out;
 wire ready;
 wire reset;
-wire [k-1:0] audio_in_2, audio_in_3;
+wire [DATA_SIZE-1:0] audio_in_2, audio_in_3;
 wire filter_done,filter_done2,filter_done3;
 wire clk1_10;
-wire [23:0] wejscie;
-wire [23:0] wyjscie;
+wire [DATA_SIZE-1:0] wejscie;
+wire [DATA_SIZE-1:0] wyjscie;
+wire [DATA_SIZE-1:0] f1_out;
+wire [COEF_SIZE-1:0] a;
 reg  [23:0] wyjscie_do_dac;
 reg  [15:0] licznik;
 reg  sample;
+wire f1_sample;
 
 Audio_Codec_Wrapper audio_codec (           // instancja obs³ugi kodeka audio
 .L_bus_in(L_bus_in),
@@ -55,17 +58,37 @@ always @*
             end
     end // always
 
-gen_sinus gen(
+gen_ekg_50 gen(                            // generator
     .data_out(wejscie),
     .clk(clk1_10),
     .reset(reset));
-
-notch_top notch_inst(
+    
+    
+BandPass_top f1(                           // filrwszy filtr, który wycina wiêkszoœæ ekg
     .data_in(wejscie),
-    .data_out(wyjscie),
-    .sample(sample),
+    .reset(reset),
     .clk(clk1_10),
+    .sample_trig(sample),
+    .filter_end(f1_sample),
+    .data_out(f1_out)
+    );    
+
+notch_top notch_inst(                       // adaptacja param a do zak³ócenia
+    .data_in(f1_out),
+   // .data_out(wyjscie),                   // wyjœcie z tej instancji jest tylko do debugowania
+    .sample(f1_sample),
+    .clk(clk1_10),
+    .a_out(a),
     .reset(reset));
+    
+notch_top2 notch_inst2(                     // koñcowy filtr wycinaj¹cy zak³ócenie na podstawie param a z poprzedniego filtru
+        .data_in(wejscie),
+        .data_out(wyjscie),
+        .sample(sample),
+        .clk(clk1_10),
+        .a(a),
+        .reset(reset));
+            
 
 always @(posedge clk1_10)       // ustawia sygna³ sample co 2Khz
     begin

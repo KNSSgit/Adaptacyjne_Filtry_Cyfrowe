@@ -14,8 +14,8 @@ time = 20;              %czas dzialania                                    !!!!!
    dt = 1/fs;                       % okres probkowania
    t = (0:dt:time-dt)';             % w sekundach
         
-   freq = 55;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
-   noise = 3.5.*cos(2*pi*freq*t);        % zaklocenie
+   freq = 60;                          % czestotliwosc zaklocenia          !!!!!!!!!!czestotliwosc zaklocenia
+   noise = 1.*cos(2*pi*freq*t);        % zaklocenie
 
 %% Ustawienia filtracji
     fi = 55;                        %czestotliwosc startowa                !!!!!!!!!!czestotliwosc startowa

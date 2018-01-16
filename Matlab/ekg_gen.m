@@ -16,18 +16,18 @@ czas_trwania = 1;
 t = (0:dt:czas_trwania-dt)';
 
 %% Tworzenie sygnalow
-ekg_czysty = (ECGwaveGen(bps_serca,2,fs,amp_ekg))';
+ekg_czysty = (ECGwaveGen(bps_serca,(czas_trwania + 1),fs,amp_ekg))';
 sinus1_czysty = amp_sinusa.*sin(2*pi*f_sinusa1*t);
 sinus2_czysty = amp_sinusa.*sin(2*pi*f_sinusa2*t);
 sinus3_czysty = amp_sinusa.*sin(2*pi*f_sinusa3*t);
 
 ekg_szum = awgn(ekg_czysty, -30);
 
-suma_sygnalow1 = round(1000.*(ekg_szum(1:2000)+sinus1_czysty));
-suma_sygnalow2 = round(1000.*(ekg_szum(1:2000)+sinus2_czysty));
-suma_sygnalow3 = round(1000.*(ekg_szum(1:2000)+sinus3_czysty));
+suma_sygnalow1 = round(1000.*(ekg_szum(1:(length(ekg_szum)-1))+sinus1_czysty));
+suma_sygnalow2 = round(1000.*(ekg_szum(1:(length(ekg_szum)-1))+sinus2_czysty));
+suma_sygnalow3 = round(1000.*(ekg_szum(1:(length(ekg_szum)-1))+sinus3_czysty));
 
-plot(t,suma_sygnalow1,'-r',t,suma_sygnalow2,'-b',t,suma_sygnalow1,'-g')
+plot(t,suma_sygnalow1,'-r',t,suma_sygnalow2,'-b',t,suma_sygnalow3,'-g')
 
 %% Zapis do pliku
 file_rom1 = fopen('sygnaly/ekg_50_rom.txt', 'w');

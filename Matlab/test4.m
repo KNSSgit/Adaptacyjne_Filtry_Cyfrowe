@@ -1,3 +1,4 @@
+
    clear all
    close all
 %% Specyfikacja czasowa:
@@ -8,7 +9,7 @@
    p=2;
 %% Czysty sinus:
    fc = 50;                     % czestotliwosc sinusa
-   sinus = 3*10e5.*cos(2*pi*fc*t);
+   sinus = 150000.*cos(2*pi*fc*t);
    sinus2=0*10e5.*sin(2*pi*fc+30*t);
 Size_1=24;  
 Size_2=31;
@@ -19,7 +20,7 @@ N=length(sinus);
  
     a = 2*cos(w);
     a_test = a;
-    u = 10e-9  ;            %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
+    u = 10e-7  ;            %wielkosc kroku  (ma³a ma byæ)!!!    jest przemno¿ona przez 2                  !!!!!!!!!!wielkosc kroku
     r = 0.997 ;                       %szerokosc notcha                   !!!!!!!!!!szerokosc notcha
     R4=10e-10;
 %% Znieksztalcony EKG1
@@ -27,21 +28,23 @@ N=length(sinus);
     sig = sinus+sinus2;
     sig=round(sig);
 
-
+w=[0.997,0.9975,0.998,0.9985]
 
 %% Adaptowanie filtru
+for m=1:length(w)
     x1 = 0;
     y1 = 0;
+    r=w(m);
     r3_reg = 0;
     r2_reg = 0;
     r1_reg = 0;
     r_3=r*R4;
-    
+    a=a_test;
     x=sig;       %% nie chce mi siê zmieniaæ wszystkich x (wiadomo o co chodzi)
     a_next = 0;
     for i = 1:N 
-        if (i>7000)
-            r=0.9975;
+        if (i>4000)
+        %    r=w(m);
         end
         r3_reg=r1_reg+x(i);                	   %pierwszy takt
 		z2_reg=r*a;
@@ -63,11 +66,11 @@ N=length(sinus);
         y1=r3_reg;
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-        aa(i)=a;
+        aa(i,m)=a;
         wy(i)=r3_reg;
         
     end   
-    
+end  
 
 
 
@@ -93,13 +96,10 @@ N=length(sinus);
     legend('Przed adaptacja', 'Po adaptacji');
       
     figure();
-    plot(t,aa);
-    figure
-    plot(t,wy)
-    figure
-    plot(fftshift(abs(fft(sig))))
-    figure
-    plot(fftshift(abs(fft(wy))))
-
-
+    hold on
+    plot(t,aa(:,1));
+    plot(t,aa(:,2));
+    plot(t,aa(:,3));
+    plot(t,aa(:,4));
+    legend('r=0.997','r=0.9975','r=0.998','r=0.9985')
 
